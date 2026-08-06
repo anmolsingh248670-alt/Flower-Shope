@@ -1,0 +1,411 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Reviews</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    <link rel="stylesheet" href="{% static "review.css" %}">
+     <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<style>
+    {% comment %} .letter {
+    color: hsl(calc(var(--index) * 50), 70%, 50%);
+} {% endcomment %}
+.letter{
+    background-color:green;
+    height: 58px;
+    width: 58px;
+    padding: 20px;
+    padding-top: 13px;
+    padding-right: 5px;
+    border-radius: 50%;
+    font-size: 30px;
+    color: white;
+}
+h2{
+    color: white;
+}
+.count{
+    margin-top: -2px;
+  
+}
+ }
+ #btn{
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 900;
+    
+ }
+.contaner2{
+    background-color: white;
+    box-shadow:  0px 1px 6px rgba(0,0,0,0.2);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly ;
+    height: 50px; 
+    margin-bottom: 5px;
+    transform: translateX(100%);
+
+}
+.contaner3{
+    background-color: white;
+    box-shadow:  0px 1px 6px rgba(0,0,0,0.2);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly ;
+    height: 50px;
+    margin-bottom: 5px;
+     transform: translateX(100%);
+}
+
+.total{
+    background-color: cadetblue;
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    height: 60px
+}
+#total{
+    text-align: center;
+
+}
+
+   .cart_box{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 7px;
+   }
+.btn{
+    height: 39px;
+    width: 125px;
+    border-radius: 20px;
+    font-size: 15px;
+    margin-top: 10px;
+    font-weight:500;
+    background-color: black;
+    color: white;
+}
+#btn{
+    text-decoration: none;
+    color: #fff;
+}
+.btn12{
+  margin-left: 30%;
+}
+
+  
+
+
+/* End */
+
+</style>
+<body>
+    <header>
+     <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
+      <h1 id="h" >Flower <span>.</span></h1>
+
+      <nav class="navbar" id="navbtn">
+        <a  href="{% url 'home' %}" id="home1">Home</a>
+        <a  href="{% url "About" %}">About</a>
+        <a  href="{% url 'products' %}" id="tap">Products</a>
+        <a  href="{% url "review" %}" id="review-button">Review</a>
+        <a  href="{% url "my_orders" %}" id="review-button">Orders</a>
+        <a  href="{% url "contact" %}">Contact</a>   
+        <a id="x" href="#">Exite <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        
+      </nav>
+
+    <div class="icon">
+    <a href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
+    <a href="#" class="cart-icon">
+    <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
+    <span class="count">{{ cart_quantity }}</span>
+    </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+    
+    {% if user.is_authenticated %}
+      <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
+      {% else %}
+       <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
+    {% endif %}   
+       
+    </header>
+       <!-- side barsaction start -->
+
+<div class="side" id="sidebar">
+
+  <div class="slide1">
+
+        <h1>Your Flower Cart 🌸</h1>
+    <div class="van">
+          <img src="{% static 'img/van.png' %}" alt="">
+    </div>
+
+    
+
+    {% if cart_items %}
+
+      {% for item in cart_items %}
+      <div class="cart_box">
+
+      <h4>{{ item.Product.Flower }}</h4>
+
+       <p>₹ {{ item.Product.final_price }}</p>
+       
+       <a href="{% url 'minus_cart' item.id %}">-</a>
+       <p> {{ item.quantity }}</p>
+       <a href="{% url 'plus_cart' item.id %}">+</a>
+       
+
+       
+  
+    {% endfor %}
+   
+      <div class="cart-items"></div>
+      </div>
+      <div class="total">
+        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
+      </div>
+      <button class="buy btn"  ><a href="{% url "Chek_out" %}">buy</a></button>
+       {% else %}
+    <h1>you carte is Empty</h1>
+    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
+
+    {% endif %}
+
+    </div>  
+    
+
+ </div>
+    
+    
+
+    
+    
+    <!-- side barsaction End -->
+
+<div class="review-container">
+
+    <h1>Customer Reviews</h1>
+
+    <!-- Write Review -->
+
+    <div class="write-review">
+
+       <h2>Write a Review</h2>
+
+<form  action="/review/" method="POST">
+    
+    {% csrf_token %}
+
+    <div class="rating">
+        <input type="radio" name="rating" id="star5" value="5" required>
+        <label for="star5"><i class="fa-solid fa-star"></i></label>
+
+        <input type="radio" name="rating" id="star4" value="4">
+        <label for="star4"><i class="fa-solid fa-star"></i></label>
+
+        <input type="radio" name="rating" id="star3" value="3">
+        <label for="star3"><i class="fa-solid fa-star"></i></label>
+
+        <input type="radio" name="rating" id="star2" value="2">
+        <label for="star2"><i class="fa-solid fa-star"></i></label>
+
+        <input type="radio" name="rating" id="star1" value="1">
+        <label for="star1"><i class="fa-solid fa-star"></i></label>
+    </div>
+
+    <textarea
+        name="comment"
+        placeholder="Write your review..."
+        rows="5"
+        required
+    ></textarea>
+
+    <br><br>
+
+    <button class="button1" type="submit">Submit Review</button>
+</form>
+
+<hr>
+
+
+
+{% comment %} {% for review in reviews %}
+    <div class="review">
+        <h4>{{ review.user.username }}</h4>
+        <p><strong>Rating:</strong> {{ review.rating }}/5 ⭐</p>
+        <p>{{ review.comment }}</p>
+        <small>{{ review.created_at }}</small>
+    </div>
+    <hr>
+{% empty %}
+    <p>No reviews yet.</p>
+{% endfor %}
+    </div> {% endcomment %}
+
+    <!-- Reviews -->
+     <br>
+     <h2 text='center'>Customer Reviews</h2>
+
+{% for review in reviews %}
+
+<div class="review-card">
+
+   <h2 class="letter">{{ review.first_letter }}</h2>
+   
+   
+   <h3>{{ review.user.username }}</h3>
+
+    <p>
+        {% for i in "12345" %}
+            {% if forloop.counter <= review.rating %}
+                ⭐
+            {% endif %}
+        {% endfor %}
+    </p>
+
+    <p>{{ review.comment }}</p>
+
+    <small>{{ review.created_at }}</small>
+
+</div>
+
+{% empty %}
+
+<h3>No Reviews Yet</h3>
+
+{% endfor %}
+
+    <div class="reviews">
+
+        <div class="review-card">
+
+            <div class="top">
+
+                <img src="https://i.pravatar.cc/60?img=5">
+
+                <div>
+
+                    <h3>Anmol Singh</h3>
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                </div>
+
+                <span>10 Jul 2026</span>
+
+            </div>
+
+            <p>
+                Beautiful flowers. Fresh fragrance and fast delivery.
+                I will definitely order again.
+            </p>
+
+        </div>
+
+        <div class="review-card">
+
+            <div class="top">
+
+                <img src="https://i.pravatar.cc/60?img=8">
+
+                <div>
+
+                    <h3>Rahul</h3>
+
+                    <div class="stars">
+                        ★★★★☆
+                    </div>
+
+                </div>
+
+                <span>08 Jul 2026</span>
+
+            </div>
+
+            <p>
+                Nice packaging. Flowers were fresh.
+                Delivery was a little late.
+            </p>
+
+        </div>
+
+        <div class="review-card">
+
+            <div class="top">
+
+                <img src="https://i.pravatar.cc/60?img=15">
+
+                <div>
+
+                    <h3>Priya</h3>
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                </div>
+
+                <span>06 Jul 2026</span>
+
+            </div>
+
+            <p>
+                Excellent quality.
+                Highly recommended.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+      <h1>Thank <span>You.</span></h1>
+      <div class="table">
+        <ul>
+          <li>Quick link</li>
+          <li>About</li>
+          <li>Products</li>
+          <li>Rivew</li>
+          <li>Contact</li>
+        </ul>
+        <ul>
+          <li>Extra links</li>
+          <li>My Order</li>
+          <li>My Favorite</li>
+        </ul>
+        <ul>
+          <li>Locations</li>
+          <li>India</li>
+          <li>USA</li>
+          <li>Japan</li>
+          <li>France</li>
+        </ul>
+        <ul>
+          <li>Contact Info</li>
+          <li>8968279544</li>
+          <li>anmolanmol@176gmail.com</li>
+          <li>India Amritsar Jandiala Guru</li>
+        </ul>
+      </div>
+    </footer>
+    
+    
+</body>
+<script src="{% static "app.js" %}"></script>
+</html>

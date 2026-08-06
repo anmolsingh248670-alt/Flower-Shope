@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static "profile.css" %}">
+
+    
+    
+    
+    <link rel="stylesheet" href="{% static "style.css" %}">
+</head>
+<style>
+    .profile-avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:#e91e63;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:50px;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+</style>
+
+<body>
+
+<!--================ NAVBAR ================-->
+
+<header>
+     <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
+      <h1 id="h" >Flower <span>.</span></h1>
+
+      <nav class="navbar" id="navbtn">
+        <a  href="{% url 'home' %}" id="home1">Home</a>
+        <a  href="{% url "About" %}">About</a>
+        <a  href="{% url 'products' %}" id="tap">Products</a>
+        <a  href="{% url "review" %}" id="review-button">Review</a>
+        <a  href="{% url "my_orders" %}" id="review-button">Orders</a>
+        <a  href="{% url "contact" %}">Contact</a>   
+        <a id="x" href="#">Exite <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        
+      </nav>
+
+    <div class="icon">
+    <a href="#"><i class="fa-solid fa-heart"></i></a>
+    <a href="#" class="cart-icon">
+    <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
+    <span class="count">{{ cart_quantity }}</span>
+    </a><a href="#"><i class="fa-solid fa-user"></i></a>
+    </div>
+    
+    {% if user.is_authenticated %}
+      <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
+      {% else %}
+       <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
+    {% endif %}   
+    
+       
+    </header>
+
+<!--================ TITLE ================-->
+
+<section class="title">
+
+<h1>My Profile</h1>
+
+<p>Home > My Profile</p>
+
+</section>
+
+<!--================ MAIN ================-->
+
+<div class="container">
+
+<!--================ SIDEBAR ================-->
+
+<div class="sidebar">
+
+<ul>
+
+<li class="active">
+<i class="fa-regular fa-user"></i>
+My Profile
+</li>
+
+<li>
+<i class="fa-solid fa-box"></i>
+<a href="{% url 'my_orders' %}">My Orders</a>
+
+</li>
+
+
+
+<li>
+<i class="fa-regular fa-heart"></i>
+<a href="{% url "wishlist" %}">Wishlist</a>
+
+</li>
+
+
+
+
+
+<li>
+<i class="fa-solid fa-right-from-bracket"></i>
+<a href="{% url 'logout_home' %}">Logout</a>
+
+</li>
+
+</ul>
+
+</div>
+
+<!--================ CONTENT ================-->
+
+<div class="content">
+
+<!--================ PROFILE CARD ================-->
+
+<div class="profile-card">
+
+<div class="profile-avatar">
+    {{ request.user.username|first|upper }}
+</div>
+
+<div class="middle">
+
+<h3>{{profile.name}}</h3>
+
+<p>
+<i class="fa-regular fa-envelope"></i>
+{{ request.user.email }}
+</p>
+
+<p>
+<i class="fa-solid fa-phone"></i>
+{{ profile.phone }}
+</p>
+
+<p>
+<i class="fa-regular fa-calendar"></i>
+ {{ request.user.date_joined|date:"F Y" }}
+</p>
+
+</div>
+
+<div class="right">
+
+<div class="box">
+
+<h3>{{ total_orders }}</h3>
+
+<span>Orders</span>
+
+</div>
+
+<div class="box">
+
+<h3>{{ total_addresses }}</h3>
+
+<span>Addresses</span>
+
+</div>
+
+<div class="box">
+
+<h3>3</h3>
+
+<span>Wishlist</span>
+
+</div>
+
+<div class="box">
+
+<h3>₹{{ total_spent }}</h3>
+
+<span>Total Spent</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!--================ PERSONAL INFO ================-->
+
+<div class="info">
+
+<h2>Personal Information</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+<div class="input-box">
+
+<input type="text" placeholder="Full Name" name="name" value="{{profile.name}}" required  >
+
+
+<input type="email" placeholder="Email" name="email"
+value="{{ request.user.email }}" required>
+
+</div>
+
+<div class="input-box" >
+
+<input type="text" placeholder="Phone" name="phone"
+value="{{ profile.phone }}" required>
+
+<input type="date" placeholder="Date Of Birth" name="dob"
+value="{{ profile.dob }}" required>
+
+</div>
+
+<div class="input-box">
+
+<select name="gender">
+
+<option value="Male"
+{% if profile.gender == "Male" %}selected{% endif %}>Male</option>
+
+<option value="Female"
+{% if profile.gender == "Female" %}selected{% endif %}>Female</option>
+
+</select>
+
+</div>
+
+<button class="btn1">Save Changes</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

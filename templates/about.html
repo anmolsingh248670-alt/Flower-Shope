@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" href="{% static 'about.css' %}" />
+  </head>
+  <style>
+span a{
+  text-decoration: none;
+  color: white;
+}   
+.sp{
+  z-index: 1;
+}
+.cart_box{
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 22px;
+  border-radius: 7px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+.cart_items .total h3{
+  text-align: center;
+}
+.total3{
+  margin-top: 5px;
+}
+.alert{
+    background:red;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    margin:10px 0;
+}
+.buy{
+  position: absolute;
+  top: 528px;
+  left: 280px;
+  padding: 8px;
+  border-radius: 30px;
+  width: 70px;
+  height: 40px;
+  font-weight: bold;
+  background-color: goldenrod;
+  cursor: pointer;
+}
+.btn12{
+  margin-left: 30%;
+}
+
+
+
+</style>
+
+
+  <body>
+    <header>
+     <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
+      <h1 id="h" >Flower <span>.</span></h1>
+
+      <nav class="navbar" id="navbtn">
+        <a  href="{% url 'home' %}" id="home1">Home</a>
+        <a  href="{% url "About" %}">About</a>
+        <a  href="{% url 'products' %}" id="tap">Products</a>
+        <a  href="{% url "review" %}" id="review-button">Review</a>
+        <a  href="{% url "my_orders" %}" id="review-button">Orders</a>
+        <a  href="{% url "contact" %}">Contact</a>   
+        <a id="x" href="#">Exite <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        
+      </nav>
+
+    <div class="icon">
+    <a href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
+    <a href="#" class="cart-icon">
+    <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
+    <span class="count">{{ cart_quantity }}</span>
+    </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+    
+    {% if user.is_authenticated %}
+      <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
+      {% else %}
+       <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
+    {% endif %}   
+       
+    </header>
+
+       <!-- side barsaction start -->
+
+<div class="side" id="sidebar">
+
+  <div class="slide1">
+
+        <h1>Your Flower Cart 🌸</h1>
+    <div class="van">
+          <img src="{% static 'img/van.png' %}" alt="">
+    </div>
+
+    
+
+    {% if cart_items %}
+
+      {% for item in cart_items %}
+      <div class="cart_box">
+
+      <h4>{{ item.Product.Flower }}</h4>
+
+       <p>₹ {{ item.Product.final_price }}</p>
+       
+       <a href="{% url 'minus_cart' item.id %}">-</a>
+       <p> {{ item.quantity }}</p>
+       <a href="{% url 'plus_cart' item.id %}">+</a>
+       
+
+       
+  
+    {% endfor %}
+   
+      <div class="cart-items"></div>
+      </div>
+      <div class="total">
+        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
+      </div>
+      <button class="buy" ><a href="{% url "Chek_out" %}">buy</a></button>
+       {% else %}
+    <h1>you carte is Empty</h1>
+    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
+
+    {% endif %}
+
+    </div>  
+    
+
+ </div>
+    
+    
+
+    
+    
+    <!-- side barsaction End -->
+
+    <!-- video contant start -->
+
+    <section class="main2">
+      <h1 class="hn">About <span>us</span></h1>
+
+      <div class="row">
+        <div class="video1">
+          <video class="bgvideo" autoplay muted loop>
+            <source src="{% static 'video/video1.mp4' %}" type="video/mp4" />
+          </video>
+          <div class="sms">
+            <h1>Best flower sellers</h1>
+          </div>
+        </div>
+
+        <div class="contant">
+          <h3>Why Choose us?</h3>
+          <p class="p1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati illum nesciunt recusandae odit omnis fugiat, aliquam incidunt ad natus nisi facere voluptatum nemo nulla minus possimus doloribus consequatur neque architecto?</p>
+          <br />
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis natus reiciendis, laboriosam illum esse iure quos eaque ut eveniet, porro quia magnam pariatur facilis odio placeat quae. Aspernatur, explicabo vero?</p>
+          {% comment %} <button class="btn" id="btn1">Learn More</button> {% endcomment %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section1">
+      <div class="card1">
+        <h2>About Flowers</h2>
+        <p>Flowers are nature’s most elegant creation. They play a vital role in pollination and bring beauty, fragrance, and life to our planet.</p>
+      </div>
+
+      <h2>Popular Flowers</h2>
+      <div class="flowers">
+        <div class="flower-box">
+          <h3>🌹 Rose</h3>
+          <p>Symbol of love and passion.</p>
+        </div>
+
+        <div class="flower-box">
+          <h3>🌻 Sunflower</h3>
+          <p>Represents happiness and positivity.</p>
+        </div>
+
+        <div class="flower-box">
+          <h3>🌼 Daisy</h3>
+          <p>Symbol of innocence and purity.</p>
+        </div>
+
+        <div class="flower-box">
+          <h3>🌺 Hibiscus</h3>
+          <p>Represents beauty and delicate charm.</p>
+        </div>
+      </div>
+    </section>
+    <br />
+    <footer>
+      <h1>Thank <span>You.</span></h1>
+      <div class="table">
+        <ul>
+          <li>Quick link</li>
+          <li>About</li>
+          <li>Products</li>
+          <li>Rivew</li>
+          <li>Contact</li>
+        </ul>
+        <ul>
+          <li>Extra links</li>
+          <li>My Order</li>
+          <li>My Favorite</li>
+        </ul>
+        <ul>
+          <li>Locations</li>
+          <li>India</li>
+          <li>USA</li>
+          <li>Japan</li>
+          <li>France</li>
+        </ul>
+        <ul>
+          <li>Contact Info</li>
+          <li>8968279544</li>
+          <li>anmolanmol@176gmail.com</li>
+          <li>India Amritsar Jandiala Guru</li>
+        </ul>
+      </div>
+    </footer>
+    <!-- video contant End -->
+    <script src="{% static 'app.js' %}"></script>
+  </body>
+</html>

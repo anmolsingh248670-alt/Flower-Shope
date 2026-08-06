@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Orders</title>
+
+<link rel="stylesheet" href="{% static 'admin_orders.css' %}">
+
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🌸 Flower Admin</h2>
+
+    <a href="#">Dashboard</a>
+    <a class="active" href="#">Orders</a>
+    <a href="{% url "admin_show" %}">Products</a>
+    <a href="{% url "add_detales" %}">Add Products Details</a>
+    <a href="#">Customers</a>
+</div>
+
+
+<div class="main">
+
+    <div class="top">
+
+        <h1>Order Management</h1>
+
+        <form method="GET">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search Order ID or Username">
+
+            <button type="submit">
+                Search
+            </button>
+        </form>
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Orders</h3>
+            <span>{{ orders|length }}</span>
+        </div>
+
+        <div class="card">
+            <h3>Pending</h3>
+            <span>{{ pending_count }}</span>
+        </div>
+
+        <div class="card">
+            <h3>Delivered</h3>
+            <span>{{ delivered_count }}</span>
+        </div>
+
+        <div class="card">
+            <h3>Revenue</h3>
+            <span>₹{{ total_revenue }}</span>
+        </div>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>Image</th>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Delivery</th>
+            <th>Status</th>
+            <th>Action</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for order in orders %}
+
+        <tr>
+
+            <td>
+
+                {% with item=order.orderitem_set.first %}
+
+                    {% if item and item.product.imge %}
+                        <img src="{{ item.product.imge.url }}" class="thumb">
+                    {% endif %}
+
+                {% endwith %}
+
+            </td>
+
+            <td>#{{ order.id }}</td>
+
+            <td>{{ order.user.username }}</td>
+
+            <td>{{ order.address.full_name }}</td>
+
+            <td>
+
+                {% for item in order.orderitem_set.all %}
+
+                    {{ item.product.Flower }}
+
+                    {% if not forloop.last %}
+                        <br>
+                    {% endif %}
+
+                {% endfor %}
+
+            </td>
+
+            <td>
+
+                {% for item in order.orderitem_set.all %}
+
+                    {{ item.quantity }}
+
+                    {% if not forloop.last %}
+                        <br>
+                    {% endif %}
+
+                {% endfor %}
+
+            </td>
+
+            <td>₹{{ order.total_price }}</td>
+
+            <td>{{ order.payment_method }}</td>
+
+            <td>{{ order.delivery_date }}</td>
+
+            <td>
+
+                <form method="POST" action="{% url 'update_order' order.id %}">
+
+                    {% csrf_token %}
+
+                    <select name="status">
+
+                        <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="Processing" {% if order.status == "Processing" %}selected{% endif %}>
+                            Processing
+                        </option>
+
+                        <option value="Shipped" {% if order.status == "Shipped" %}selected{% endif %}>
+                            Shipped
+                        </option>
+
+                        <option value="Delivered" {% if order.status == "Delivered" %}selected{% endif %}>
+                            Delivered
+                        </option>
+
+                        <option value="Cancelled" {% if order.status == "Cancelled" %}selected{% endif %}>
+                            Cancelled
+                        </option>
+
+                    </select>
+
+            </td>
+
+            <td>
+
+                    <button type="submit" class="save">
+                        Save
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="11">
+                No orders found.
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

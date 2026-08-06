@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style3.css' %}" />
+  </head>
+  <body>
+    <header>
+      <h1>Flower Admin <span>🌸</span></h1>
+      <button class="btn"><a href="{% url 'admin_show' %}">Back Admin</a></button>
+    </header>
+
+    <br />
+    <div class="main">
+      <div class="form-box">
+        <h2>Add New Product</h2>
+
+        <form method="POST" action="{% url 'add_products' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="input-box">
+            <label>Product Name</label>
+            <input type="text" placeholder="Flower Name" name="Flower" required />
+          </div>
+
+          <div class="input-box">
+            <label>Price</label>
+            <input type="number" placeholder="₹ 0.00" name="rate" required />
+          </div>
+
+          <div class="input-box">
+            <label>Discount</label>
+            <input type="number" placeholder="10%" name="discount" required />
+          </div>
+
+          <div class="input-box">
+            <label>Quantity</label>
+            <input type="number" placeholder="0" name="qut" />
+          </div>
+
+          <div class="input-box">
+            <label>Product Image</label>
+            <input type="file" name="imge" required />
+          </div>
+
+          <button type="submit">+ Add Product</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

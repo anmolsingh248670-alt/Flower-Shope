@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Confirmation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
+
+body{
+    margin:0;
+    padding:30px;
+    background:#f7f7f7;
+    font-family:Arial,sans-serif;
+}
+
+.container{
+    max-width:650px;
+    margin:auto;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.header{
+    background:#ff4f81;
+    color:#fff;
+    text-align:center;
+    padding:30px;
+}
+
+.header h1{
+    margin:0;
+}
+
+.content{
+    padding:30px;
+}
+
+.box{
+    background:#fff5f8;
+    border-radius:10px;
+    padding:20px;
+    margin-top:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+.product-image{
+    width:170px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    display:block;
+}
+
+.product-name{
+    font-size:22px;
+    font-weight:bold;
+    color:#333;
+    margin-bottom:10px;
+}
+
+.price{
+    color:#ff4f81;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.total{
+    font-size:20px;
+    color:#ff4f81;
+    font-weight:bold;
+}
+
+.button{
+    display:inline-block;
+    margin-top:30px;
+    padding:14px 30px;
+    background:#ff4f81;
+    color:white;
+    text-decoration:none;
+    border-radius:30px;
+}
+
+.footer{
+    background:#f2f2f2;
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>🌸 Order Confirmed!</h1>
+
+<p>Thank you for shopping with us.</p>
+
+</div>
+
+<div class="content">
+
+<p>Hello <strong>{{ addres.full_name }}</strong>,</p>
+
+<p>Your flower order has been placed successfully.</p>
+
+<!-- Order Details -->
+
+<div class="box">
+
+<h2>📦 Order Details</h2>
+
+<table>
+
+<tr>
+<td><b>Order ID</b></td>
+<td>#FLW{{ order.order_id }}</td>
+</tr>
+
+<tr>
+<td><b>Order Date</b></td>
+<td>{{address.date}}</td>
+</tr>
+
+<tr>
+<td><b>Payment Method</b></td>
+<td> Cash on Delvery </td>
+</tr>
+
+<tr>
+<td><b>Status</b></td>
+<td style="color:green;"><b>Confirmed</b></td>
+</tr>
+
+<tr>
+<td><b>Expected Delivery</b></td>
+<td>{{ delivery_date }}</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Ordered Product -->
+<div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:20px;margin:20px 0;">
+
+    <h2 style="margin:0 0 20px;color:#d63384;font-size:22px;text-align:center;">
+        🌹 Ordered Product
+    </h2>
+
+    {% for x in data %}
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #eeeeee;padding-bottom:15px;margin-bottom:15px;">
+        <tr>
+
+            <td align="center" style="padding-bottom:15px;">
+                <img src="{{ x.Product.imge.url }}"
+                     alt="{{ x.Product.Flower }}"
+                     width="180"
+                     style="max-width:180px;width:100%;height:auto;border-radius:10px;">
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                <h3 style="margin:0;color:#333333;font-size:20px;">
+                    {{ x.Product.Flower }}
+                </h3>
+
+                <p style="margin:10px 0;font-size:16px;color:#555555;">
+                    <strong>Price:</strong>
+                    <span style="color:#e91e63;font-weight:bold;">
+                        ₹{{ x.Product.final_price }}
+                    </span>
+                </p>
+
+                <p style="margin:10px 0;font-size:16px;color:#555555;">
+                    <strong>Quantity:</strong>
+                    {{ x.quantity }}
+                </p>
+
+               
+
+            </td>
+
+        </tr>
+    </table>
+
+    {% endfor %}
+
+</div>
+
+<!-- Address -->
+
+<div class="box">
+
+<h2>🚚 Delivery Address</h2>
+
+<p>
+
+<strong>{{ address.full_name }}</strong><br>
+
+Contect Number: {{ address.phone }}<br>
+
+House no. {{ address.house_no }}<br>
+
+City: {{ address.city }}<br>
+
+Pinecode: {{ address.pincode }} <br>
+
+state: {{ address.state }} 
+
+</p>
+
+</div>
+
+<!-- Order Summary -->
+
+<div class="box">
+
+<h2>💰 Order Summary</h2>
+
+<table>
+
+{% comment %} <tr>
+<td>Subtotal</td>
+<td>₹{{ subtotal }}</td>
+</tr> {% endcomment %}
+
+<tr>
+<td>Delivery Charge</td>
+<td>Free</td>
+</tr>
+
+<tr>
+<td>Rating</td>
+<td><i class="fa-solid fa-star"></i></td>
+</tr>
+
+<tr>
+<td><strong>Total Amount</strong></td>
+<td class="total">₹{{ total }}</td>
+</tr>
+
+</table>
+
+</div>
+
+<center>
+
+<a href="{{ order_url }}" class="button">
+
+View My Order
+
+</a>
+
+</center>
+
+</div>
+
+<div class="footer">
+
+<p><strong>Flower Shop 🌸</strong></p>
+
+<p>Thank you for choosing us!</p>
+
+<p>Happy Shopping ❤️</p>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+
+span a{
+  text-decoration: none;
+  color: white;
+}   
+.sp{
+  z-index: 1;
+}
+.cart_box{
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 22px;
+  border-radius: 7px;
+  margin-top: 5px;
+  border: 1px solid black;
+  /* gap: -10px; */
+}
+.cart_items .total h3{
+  text-align: center;
+}
+.total3{
+  margin-top: 5px;
+}
+.alert{
+    background:red;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    margin:10px 0;
+}
+.buy{
+  position: absolute;
+  top: 528px;
+  left: 280px;
+  padding: 8px;
+  border-radius: 30px;
+  width: 70px;
+  height: 40px;
+  font-weight: bold;
+  background-color: goldenrod;
+  cursor: pointer;
+}
+
+
+/* Responsive CSS - Add at the END of style.css */
+
+/* Tablet */
+@media (max-width:992px){
+  .main{grid-template-columns:repeat(2,1fr);margin:20px;gap:20px;}
+  .dives{display:grid;grid-template-columns:repeat(2,1fr);height:auto;padding:20px;}
+  .table{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding:20px;}
+}
+
+/* Mobile */
+@media (max-width:768px){
+  header{padding:0 15px;justify-content:space-between;}
+  .menu{display:block;}
+  .navbar{display:none;position:absolute;top:60px;left:0;width:100%;background:#fff;flex-direction:column;}
+  .navbar.active{display:flex;}
+  .navbar a{text-align:center;padding:15px;border-bottom:1px solid #ddd;}
+  .login{display:none;}
+  .main{grid-template-columns:1fr;margin:15px;}
+  
+  .dives{grid-template-columns:1fr;}
+  /* .rowes{width:100%;} */
+  .table{grid-template-columns:1fr;text-align:center;}
+  .side{width:100%;}
+  .box1{
+        width:100%;
+        height:auto;
+    }
+
+    .imges1 img{
+        width:100%;
+        height:auto;
+        object-fit:contain;
+    }
+
+
+}
+
+/* Small Mobile */
+@media (max-width:480px){
+  #h{font-size:24px;}
+  .icon a{font-size:20px;}
+  .box1 img{height:260px;}
+  .box1{
+    width:100%;
+    /* height: 150%; */
+  }
+  img{
+    background-size: cover;
+    object-fit: cover;
+    height: 100%;
+  }
+}

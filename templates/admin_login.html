@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxury Login</title>
+    <link rel="stylesheet" href="{% static 'style1.css' %}" />
+  </head>
+  <body>
+    <div class="login-box">
+      <h1>Welcome Back 👋</h1>
+      <p>Sign in to continue</p>
+
+      <form action="/admin_user/" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Admin User" name="name" required />
+        <input type="password" placeholder="Password" name="password" required />
+
+        <div class="row">
+          <label><input type="checkbox" />Remember me</label>
+
+          <a href="#">Forgot?</a>
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    {% if messages %}
+      {% for message in messages %}
+        <script>
+          alert('{{ message }}')
+        </script>
+      {% endfor %}
+    {% endif %}
+  </body>
+</html>

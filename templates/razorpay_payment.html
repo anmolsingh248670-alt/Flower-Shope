@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Razorpay Payment</title>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<style>
+    /* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#fdf2f8,#ffe4e6,#fce7f3);
+    overflow:hidden;
+}
+
+/* Background Circles */
+
+body::before{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    background:#ff6b9d;
+    border-radius:50%;
+    top:-120px;
+    left:-120px;
+    filter:blur(60px);
+    opacity:.4;
+}
+
+body::after{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    background:#ffb6c1;
+    border-radius:50%;
+    bottom:-120px;
+    right:-120px;
+    filter:blur(60px);
+    opacity:.4;
+}
+
+/* Card */
+
+.payment-card{
+    position:relative;
+    width:420px;
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(18px);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
+    border:1px solid rgba(255,255,255,.5);
+    z-index:10;
+}
+
+.payment-card img{
+    width:90px;
+    margin-bottom:15px;
+}
+
+.payment-card h1{
+    color:#d63384;
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.payment-card p{
+    color:#666;
+    margin-bottom:25px;
+}
+
+/* Amount Box */
+
+.amount-box{
+    background:#fff;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.amount-box h3{
+    color:#888;
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.amount-box h2{
+    color:#222;
+    font-size:40px;
+    font-weight:700;
+}
+
+/* Button */
+
+#pay-btn{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:50px;
+    background:linear-gradient(45deg,#ff4d8d,#ff7eb3);
+    color:#fff;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.35s;
+    box-shadow:0 12px 30px rgba(255,77,141,.35);
+}
+
+#pay-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 18px 35px rgba(255,77,141,.45);
+}
+
+#pay-btn:active{
+    transform:scale(.97);
+}
+
+/* Secure */
+
+.secure{
+    margin-top:25px;
+    color:#666;
+    font-size:14px;
+}
+
+.secure span{
+    color:#16a34a;
+    font-weight:600;
+}
+
+/* Responsive */
+
+@media(max-width:500px){
+
+.payment-card{
+    width:92%;
+    padding:30px 22px;
+}
+
+.payment-card h1{
+    font-size:28px;
+}
+
+.amount-box h2{
+    font-size:34px;
+}
+
+}
+</style>
+<body>
+
+<div class="payment-card">
+
+    <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Flower">
+
+    <h1>Flower Shop</h1>
+
+    <p>Complete your payment securely using Razorpay</p>
+
+    <div class="amount-box">
+        <h3>Total Amount</h3>
+        <h2>₹{{ total }}</h2>
+    </div>
+
+    <button id="pay-btn">
+        💳 Pay Securely
+    </button>
+
+    <div class="secure">
+        🔒 <span>100% Secure Payment</span><br>
+        Powered by Razorpay
+    </div>
+
+</div>
+
+<script>
+
+var options = {
+
+    key: "{{ razorpay_key }}",
+
+    amount: "{{ amount }}",
+
+    currency: "INR",
+
+    name: "Flower Shop",
+
+    description: "Order Payment",
+
+    order_id: "{{ order_id }}",
+
+    handler: function (response) {
+
+        alert("Payment Successful");
+
+        window.location.href="/Place_Order/";
+
+    }
+
+};
+
+var rzp = new Razorpay(options);
+
+document.getElementById("pay-btn").onclick=function(e){
+
+    rzp.open();
+
+    e.preventDefault();
+
+}
+
+</script>
+
+</body>
+</html>

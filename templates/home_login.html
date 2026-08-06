@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flower Store Login</title>
+<link rel="stylesheet" href="{% static "style6.css" %}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="left">
+        <img src="https://jamescressflorist.com/cdn/shop/articles/Flower_Trends_2026_Hottest_Colors_And_Styles_For_The_Year_Ahead_079e9ea9-693f-42b0-8d5b-f16158de78aa.webp?v=1751015466" >
+    </div>
+
+    <div class="right">
+
+        <div class="logo">
+            <span>🌷</span>
+            <h3>Flower Store</h3>
+        </div>
+
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Login to your account</p> 
+    <form action="/home_login/" method='post' >  
+        {% csrf_token %}  
+        <label>Email address</label>
+        <div class="input-box">
+            <span class="icon">✉</span>
+            <input type="email" placeholder="Enter your email" name="email" required>
+        </div>
+
+        <label>Password</label>
+        <div class="input-box">
+            <span class="icon">🔒</span>
+            <input type="password" placeholder="Enter your password"  name="password" required>
+            {% comment %} <span class="eye">👁</span> {% endcomment %}
+        </div>
+        {% if messages %}
+          {% for message in messages %}
+            <p style="color:red;">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+        <div class="options">
+            <label>
+                <input type="checkbox" required checked> Remember me 
+            </label>
+            <a href="#">Forgot password?</a>
+        </div>
+
+        <button class="login-btn" type="submit"> Login</button>
+
+    </form>
+        <div class="signup">
+            Don't have an account?
+            <a href="{% url "home_account" %}">Sign up</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

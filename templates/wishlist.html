@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist</title>
+
+    <link rel="stylesheet" href="{% static 'wishlist.css' %}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>❤️ My Wishlist</h1>
+
+    {% if items %}
+
+    <div class="products">
+
+        {% for item in items %}
+
+        <div class="card">
+
+            <div class="img-box">
+                <img src="{{ item.product.imge.url }}" alt="">
+            </div>
+
+            <div class="content">
+
+                <h2>{{ item.product.Flower }}</h2>
+
+                <h3>₹{{ item.product.final_price }}</h3>
+
+                <div class="buttons">
+
+                    <a class="view"
+                       href="{% url 'Flower_detales' item.product.id %}">
+                        View Product
+                    </a>
+
+                    <a class="remove"
+                       href="{% url 'toggle_wishlist' item.product.id %}">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+
+        <i class="fa-regular fa-heart"></i>
+
+        <h2>Your Wishlist is Empty</h2>
+
+        <p>Add your favourite flowers.</p>
+
+        <a href="{% url 'products' %}" class="shop">
+            Shop Now
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#fff5f8;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:40px 0;
+}
+
+.container h1{
+    text-align:center;
+    color:#e84393;
+    margin-bottom:40px;
+    font-size:40px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.img-box{
+    width: 100%;
+    height: 280px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-box img{
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+.card:hover .img-box img{
+    transform: scale(1.08);
+}
+
+
+.content{
+    padding:20px;
+    text-align:center;
+}
+
+.content h2{
+    margin-bottom:10px;
+    color:#333;
+}
+
+.content h3{
+    color:#e84393;
+    margin-bottom:20px;
+}
+.card{
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+}
+
+.view{
+    text-decoration:none;
+    background:#e84393;
+    color:#fff;
+    padding:10px 18px;
+    border-radius:30px;
+    transition:.3s;
+}
+
+.view:hover{
+    background:#d63384;
+}
+
+.remove{
+    width:42px;
+    height:42px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:50%;
+    background:#ffebee;
+    color:red;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.remove:hover{
+    background:red;
+    color:#fff;
+}
+
+.empty{
+    text-align:center;
+    margin-top:120px;
+}
+
+.empty i{
+    font-size:80px;
+    color:#e84393;
+}
+
+.empty h2{
+    margin:20px 0;
+    color:#444;
+}
+
+.empty p{
+    color:#777;
+    margin-bottom:25px;
+}
+
+.shop{
+    display:inline-block;
+    text-decoration:none;
+    background:#e84393;
+    color:#fff;
+    padding:12px 30px;
+    border-radius:30px;
+    transition:.3s;
+}
+
+.shop:hover{
+    background:#d63384;
+}

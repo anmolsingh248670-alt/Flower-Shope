@@ -1,0 +1,333 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Contact Us</title>
+
+    <link rel="stylesheet" href="{% static 'style9.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+  </head>
+  <style>
+   .cart_box{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 7px;
+   }
+   .btn12{
+  margin-left: 30%;
+}
+
+  </style>
+
+  <body>
+    <!-- ================ HEADER ================ -->
+
+    <header>
+     <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
+      <h1 id="h" >Flower <span>.</span></h1>
+
+      <nav class="navbar" id="navbtn">
+        <a  href="{% url 'home' %}" id="home1">Home</a>
+        <a  href="{% url "About" %}">About</a>
+        <a  href="{% url 'products' %}" id="tap">Products</a>
+        <a  href="{% url "review" %}" id="review-button">Review</a>
+        <a  href="{% url "my_orders" %}" id="review-button">Orders</a>
+        <a  href="{% url "contact" %}">Contact</a>   
+        <a id="x" href="#">Exite <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        
+      </nav>
+
+    <div class="icon">
+    <a href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
+    <a href="#" class="cart-icon">
+    <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
+    <span class="count">{{ cart_quantity }}</span>
+    </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+    
+    {% if user.is_authenticated %}
+      <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
+      {% else %}
+       <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
+    {% endif %}   
+       
+    </header>
+
+          <!-- side barsaction start -->
+
+<div class="side" id="sidebar">
+
+  <div class="slide1">
+
+        <h1>Your Flower Cart 🌸</h1>
+    <div class="van">
+          <img src="{% static 'img/van.png' %}" alt="">
+    </div>
+
+    
+
+    {% if cart_items %}
+
+      {% for item in cart_items %}
+      <div class="cart_box">
+
+      <h4 id="name">{{ item.Product.Flower }}</h4>
+
+       <p>₹ {{ item.Product.final_price }}</p>
+       
+       <a href="{% url 'minus_cart' item.id %}">-</a>
+       <p> {{ item.quantity }}</p>
+       <a href="{% url 'plus_cart' item.id %}">+</a>
+       
+
+       
+  
+    {% endfor %}
+   
+      <div class="cart-items"></div>
+      </div>
+      <div class="total">
+        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
+      </div>
+      <button class="buy" ><a href="{% url "Chek_out" %}">buy</a></button>
+       {% else %}
+    <h1>you carte is Empty</h1>
+    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
+
+    {% endif %}
+
+    </div>  
+    
+
+ </div>
+    
+    
+
+    
+    
+    <!-- side barsaction End -->
+
+
+<!-- ================ HERO ================= -->
+
+    <section class="hero">
+      <div class="flower-left">
+        <img src="{% static 'imageimg/contect1.png' %}" alt="" />
+      </div>
+
+      <div class="hero-content">
+        <h1>Contact Us</h1>
+
+        <div class="line">
+          <span><i class="fa-solid fa-spa"></i></span>
+        </div>
+
+        <h2>We would love to hear from you!</h2>
+
+        <p>Reach out to us for any queries, support or feedback.</p>
+      </div>
+
+      <div class="flower-right">
+        <img src="{% static 'image/flower-right.png' %}" alt="" />
+      </div>
+    </section>
+
+    <!-- ================ CONTACT ================= -->
+
+    <section class="contact">
+      <!-- LEFT -->
+
+      <div class="contact-form">
+        <h2>
+          <i class="fa-regular fa-paper-plane"></i>
+
+          Send Us a Message
+        </h2>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="success">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="input-box">
+              <i class="fa-regular fa-user"></i>
+
+              <input type="text" name="full_name" placeholder="Your Name" required />
+            </div>
+
+            <div class="input-box">
+              <i class="fa-regular fa-envelope"></i>
+
+              <input type="email" name="email" placeholder="Your Email" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-box">
+              <i class="fa-solid fa-phone"></i>
+
+              <input type="text" name="phone" placeholder="Your Phone" required />
+            </div>
+
+            <div class="input-box">
+              <i class="fa-regular fa-bookmark"></i>
+
+              <input type="text" name="subject" placeholder="Subject" required />
+            </div>
+          </div>
+
+          <div class="input-box textarea">
+            <i class="fa-regular fa-comment"></i>
+
+            <textarea name="message" placeholder="Your Message" rows="8" required></textarea>
+          </div>
+
+          <button class="bunt" type="submit">
+            <i class="fa-regular fa-paper-plane"></i>
+
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT -->
+
+      <div class="contact-info">
+        <h2>
+          <i class="fa-solid fa-phone"></i>
+
+          Contact Information
+        </h2>
+
+        <div class="item">
+          <div class="icon1" style="padding: 25px;">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+
+          <div>
+            <h3>Our Address</h3>
+
+            <p>2486, Amritsar Jandiala Guru,
+
+              Punjab -143115, India</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="icon1">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+
+          <div>
+            <h3>Phone Number</h3>
+
+            <p>+91 8968279544</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="icon1">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+
+          <div>
+            <h3>Email Address</h3>
+
+            <p>support@myflower.com</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="icon1">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+
+          <div>
+            <h3>Working Hours</h3>
+
+            <p>Monday - Sunday</p>
+
+            <p>10:00 AM - 8:00 PM</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================ MAP ================= -->
+
+    <section class="map-section">
+      <div class="map-text">
+        <h2>
+          <i class="fa-solid fa-location-dot"></i>
+
+          We Are Here
+        </h2>
+
+        <p>Visit our store or reach out to us anytime.
+
+          We are always here to help you.</p>
+      </div>
+
+      <div class="map">
+       <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13679.147077684787!2d74.872264!3d31.634308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391964aa569e7355%3A0xeea2605bee84ef7d!2sAmritsar%2C%20Punjab!5e0!3m2!1sen!2sin!4v1750000000000"
+    width="100%"
+    height="450"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+        
+      </div>
+    </section>
+
+    <!-- ================ FOOTER ================= -->
+
+    <footer>
+      <h1>Thank <span>You.</span></h1>
+      <div class="table">
+        <ul>
+          <li>Quick link</li>
+          <li>About</li>
+          <li>Products</li>
+          <li>Rivew</li>
+          <li>Contact</li>
+        </ul>
+        <ul>
+          <li>Extra links</li>
+          <li>My Order</li>
+          <li>My Favorite</li>
+        </ul>
+        <ul>
+          <li>Locations</li>
+          <li>India</li>
+          <li>USA</li>
+          <li>Japan</li>
+          <li>France</li>
+        </ul>
+        <ul>
+          <li>Contact Info</li>
+          <li>8968279544</li>
+          <li>anmolanmol@176gmail.com</li>
+          <li>India Amritsar Jandiala Guru</li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+  <script src="{% static "app.js" %}"></script>
+</html>

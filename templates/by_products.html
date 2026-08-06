@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    <link rel="stylesheet" href="{% static "by_product.css" %}">
+</head>
+<style>
+  #clicked:active{
+    background-color: red;
+    font-size: 20px;
+    color: red;
+
+  }
+  .btn12{
+  margin-left: 30%;
+}
+
+</style>
+
+<body>
+    <header>
+     <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
+      <h1 id="h" >Flower <span>.</span></h1>
+
+      <nav class="navbar" id="navbtn">
+        <a  href="{% url 'home' %}" id="home1">Home</a>
+        <a  href="{% url "About" %}">About</a>
+        <a  href="{% url 'products' %}" id="tap">Products</a>
+        <a  href="{% url "review" %}" id="review-button">Review</a>
+        <a  href="{% url "my_orders" %}" id="review-button">Orders</a>
+        <a  href="{% url "contact" %}">Contact</a>   
+        <a id="x" href="#">Exite <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        
+      </nav>
+
+    <div class="icon">
+    <a href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
+    <a href="#" class="cart-icon">
+    <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
+    <span class="count">{{ cart_quantity }}</span>
+    </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
+    </div>
+    
+    {% if user.is_authenticated %}
+      <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
+      {% else %}
+       <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
+    {% endif %}   
+       
+    </header>
+
+     <!-- side barsaction start -->
+
+<div class="side" id="sidebar">
+
+  <div class="slide1">
+
+        <h1>Your Flower Cart 🌸</h1>
+    <div class="van">
+          <img src="{% static 'img/van.png' %}" alt="">
+    </div>
+
+    
+
+    {% if cart_items %}
+
+      {% for item in cart_items %}
+      <div class="cart_box">
+
+      <h4>{{ item.Product.Flower }}</h4>
+
+       <p>₹ {{ item.Product.final_price }}</p>
+       
+       <a href="{% url 'minus_cart' item.id %}">-</a>
+       <p> {{ item.quantity }}</p>
+       <a href="{% url 'plus_cart' item.id %}">+</a>
+       
+
+       
+  
+    {% endfor %}
+   
+      <div class="cart-items"></div>
+      </div>
+      <div class="total">
+        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
+      </div>
+      <button class="buy" ><a href="{% url "Chek_out" %}">buy</a></button>
+       {% else %}
+    <h1>you carte is Empty</h1>
+    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
+
+    {% endif %}
+
+    </div>  
+    
+
+ </div>
+    
+    
+
+    
+    
+    <!-- side barsaction End -->
+    <section class="Products1 " id="products">
+        <br><br><br><br>
+        <div class="hed5">
+         <h1 id="in"> latest <span>products</span></h1>
+         </div>
+         
+    <div class="main">
+     {% for x in data %}     
+        <div class="box1">
+
+            <span class="sp">{{x.discount}}%</span>
+            <div class="imges1">
+         <a href="{% url 'Flower_detales' x.id %}"><img src="{{x.imge.url}}"></a> 
+            </div>
+            <br>
+            <div class="icon2" id="addto-cart">
+               <span class="sp3" id="pres">
+
+
+              
+          
+               
+               <a href="{% url "cart" x.id %}">
+                
+                Add to cart</a> <a id="clicked" href="{% url 'toggle_wishlist' x.id %}"><i id="click" class="fa-regular fa-heart"></i></a></span> 
+
+</a>
+
+            </div>
+
+
+            <div class="hed3">
+                <h2>{{x.Flower}}</h2>
+                </div>
+                <div class="prs">
+                <h3 id="h3">Rs.{{x.final_price}}</h3><p>Rs.{{x.rate}}</p>
+                </div>
+            </div>
+      {% endfor %} 
+    </div>
+
+
+    <br><br>
+     <footer>
+    <h1>Thank <span>You.</span></h1>
+   <div class="table">  
+    <ul>
+      <li>Quick link</li>
+      <li>About</li>
+      <li>Products</li>
+      <li>Rivew</li>
+      <li>Contact</li>  
+    </ul>
+    <ul>
+      <li>Extra links</li>
+      <li>My Order</li>
+      <li>My Favorite</li>
+    </ul>
+    <ul>
+      <li>Locations</li>
+      <li>India</li>
+      <li>USA</li>
+      <li>Japan</li>
+      <li>France</li>
+    </ul>
+    <ul>
+      <li>Contact Info</li>
+      <li>8968279544</li>
+      <li>anmolanmol@176gmail.com</li>
+      <li>India Amritsar Jandiala Guru</li>
+    </ul>
+
+    </div>
+   </footer>
+  
+ {% if messages %}
+    {% for message in messages %}
+        <script>
+            alert("{{ message }}");
+        </script>
+    {% endfor %}
+{% endif %}
+   
+  <script src="{% static "app.js" %}"></script>
+</body>
+</html>

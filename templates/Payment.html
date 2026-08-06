@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Flower - Order Confirmation</title>
+    <link rel="stylesheet" href="{% static "style8.css" %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head
+>
+<style>
+    .product-img{
+    width:70px;
+    height:70px;
+    border-radius:12px;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.product-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+</style>
+<body>
+
+  
+    <div class="container">
+        
+        <div class="page-title-section">
+            <h1 class="page-title">Order Confirmation</h1>
+            <p class="page-subtitle">Thank you! Please review your order details.</p>
+
+        </div>
+
+        <div class="grid-container">
+            
+            <div class="card">
+                <div class="card-title">📍 Delivery Details</div>
+                <table class="info-table">
+                    <tr>
+                        <td class="info-label">Recipient Name</td>
+                        <td class="info-value">{{ address.full_name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Phone Number</td>
+                        <td class="info-value">{{ address.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Email Address</td>
+                        <td class="info-value">{{ address.user }}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Delivery Address</td>
+                        <td class="info-value">{{ address.house_no }},{{ address.street }}, {{ address.state}}- {{ address.pincode }}, {{ address.country }}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Delivery Date</td>
+                        <td class="info-value"> {{ delivery_date|date:"l, d F Y" }}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Delivery Time</td>
+                        <td class="info-value">10:00 AM - 2:00 PM</td>
+                    </tr>
+                </table>
+
+                <div class="delivery-notice">
+                    <span style="font-size: 24px;">🚚</span>
+                    <div class="notice-text">
+                        <h4>We will deliver your order on time.</h4>
+                        <p>Sit back and relax, we take care of the rest.</p>
+                    </div>
+                </div>
+            </div>
+
+           <div class="card">
+    <div class="card-title">🛍️ Order Summary</div>
+
+    <table class="summary-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th style="text-align:right;">Price</th>
+                <th style="text-align:center;">Qty</th>
+                <th style="text-align:right;">Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>
+                    <div class="product-cell">
+
+                        <div class="product-img">
+                            <img src="{{ item.Product.imge.url }}" alt="{{ item.Product.Flower }}">
+                        </div>
+
+                        <div>
+                            <div class="product-name">
+                                {{ item.Product.Flower }}
+                            </div>
+
+                            <div class="product-desc">
+                                Fresh Flower Bouquet
+                            </div>
+                        </div>
+
+                    </div>
+                </td>
+
+                <td style="text-align:right;">
+                    ₹{{ item.Product.final_price }}
+                </td>
+
+                <td style="text-align:center;">
+                    {{ item.quantity }}
+                </td>
+
+                <td style="text-align:right;font-weight:500;">
+                    ₹{% widthratio item.Product.final_price 1 item.quantity %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center;padding:20px;">
+                    Your cart is empty.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="price-breakdown">
+
+        <div class="price-row">
+            <span style="color:var(--text-muted);">Subtotal</span>
+            <span style="font-weight:500;">₹{{ total }}</span>
+        </div>
+
+        <div class="price-row">
+            <span style="color:var(--text-muted);">Delivery Charges</span>
+            <span style="font-weight:500;">Free</span>
+        </div>
+
+        <div class="price-row">
+            <span style="color:var(--text-muted);">Discount</span>
+            <span class="discount-text">₹0</span>
+        </div>
+
+        <div class="total-row">
+            <span class="total-label">Total Amount</span>
+            <span class="total-amount">₹{{ total }}</span>
+        </div>
+
+    </div>
+</div>
+
+        <form action="/payment/" method="post">
+        {% csrf_token %}
+        <div class="card payment-card">
+            <div class="card-title">💳 Choose Payment Method</div>
+            <div class="payment-grid">
+                
+                <div class="payment-option active">
+                    <input type="radio" name="payment_method" value="COD" class="payment-radio" >
+                    <div style="font-size: 28px; margin-bottom: 8px;">💵</div>
+                    <div class="payment-title">Cash on Delivery</div>
+                    <div class="payment-desc">Pay in cash when your order is delivered.</div>
+                </div>
+
+                <div class="payment-option">
+                    <input type="radio" name="payment_method"  value="Online" class="payment-radio" checked>
+                    <div style="font-size: 24px; font-weight: bold; color: #007343; margin-bottom: 12px; font-style: italic;">UPI</div>
+                    <div class="payment-title">UPI Payment</div>
+                    <div class="payment-desc">Pay securely using any UPI app.</div>
+                </div>
+                
+
+                {% comment %} <div class="payment-option">
+                    <input type="radio" name="payment" class="payment-radio">
+                    <div style="font-size: 24px; font-weight: bold; color: #1a1f71; margin-bottom: 12px; font-style: italic;">VISA</div>
+                    <div class="payment-title">Credit / Debit Card</div>
+                    <div class="payment-desc">Pay using Visa, Mastercard, Rupay etc.</div>
+                </div>
+
+                <div class="payment-option">
+                    <input type="radio" name="payment" class="payment-radio">
+                    <div style="font-size: 28px; margin-bottom: 8px;">🏛️</div>
+                    <div class="payment-title">Net Banking</div>
+                    <div class="payment-desc">Pay securely using your bank account.</div>
+                </div> {% endcomment %}
+
+            </div>
+        </div>
+
+        <div class="action-section">
+            <a href="#"><button class="btn-place-order" type="submit"> Place Order →</button></a>
+            <div class="security-text">🛡️ Your payment information is 100% secure and safe.</div>
+        </div>
+    </form>    
+    </div>
+
+    
+</body>
+</html>

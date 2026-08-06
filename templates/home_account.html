@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account - Flower Store</title>
+    <link rel="stylesheet" href="{% static 'style5.css' %}" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">
+          🌷 <span>Flower Store</span>
+        </div>
+
+        <div class="login-link">
+          Already have an account?
+          <a href="{% url 'home_login' %}">Login</a>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- Form Section -->
+        <div class="form-section">
+          <h1>Create Account</h1>
+          <p class="subtitle">Sign up to get started</p>
+
+          <form method="post" action="/home_account/">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <div class="input-box">
+                <i class="fa-regular fa-envelope"></i>
+                <input type="email" placeholder="Enter your email" name="email" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Password</label>
+              <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Create a password" name="password" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Confirm your password" name="password2" />
+              </div>
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+                <p style="color:red;">{{ message }}</p>
+              {% endfor %}
+            {% endif %}
+
+            <div class="checkbox">
+              <input type="checkbox" required />I agree to the
+              <a href="#">Terms of Service</a>
+              and
+              <a href="#">Privacy Policy</a>
+            </div>
+
+            <button class="signup-btn" type="submit">Sign Up</button>
+          </form>
+          <div class="divider">or sign up with</div>
+
+          <button class="social-btn">
+            <i class="fa-brands fa-google google"></i>
+            Continue with Google
+          </button>
+
+          <button class="social-btn">
+            <i class="fa-brands fa-facebook facebook"></i>
+            Continue with Facebook
+          </button>
+        </div>
+
+        <!-- Image Section -->
+        <div class="image-section">
+          <!-- Replace image path with your uploaded flower image -->
+          <img src="https://images.pexels.com/photos/7664379/pexels-photo-7664379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Flower Bouquet" height="100px" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

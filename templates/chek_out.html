@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "style7.css" %}">
+    <title>Checkout</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="checkout.css">
+
+</head>
+
+<body>
+
+<div class="checkout-container">
+
+    <!-- LEFT SIDE -->
+
+    <div class="left-side">
+
+        <h1>Checkout</h1>
+
+        <!-- Contact -->
+
+        <div class="card">
+
+            <h2>Contact Information</h2>
+
+            <div class="input-grid">
+
+        <form action="/Chek_out/" method="post">       
+            {% csrf_token %} 
+                <div class="input-box">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter name" name="full_name" required>
+                </div>
+                {% comment %} <div class="input-box">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter email" name="email" required>
+                </div> {% endcomment %}
+
+                <div class="input-box">
+                    <label>Phone</label>
+                    <input type="text" placeholder="Phone number" name="phone" required>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Shipping -->
+
+        <div class="card">
+
+            <h2>Shipping Address</h2>
+
+            <div class="input-grid">
+
+                <div class="input-box">
+                    <label>House No.</label>
+                    <input type="text" name="house_no" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Street</label>
+                    <input type="text" name="street" required>
+                </div>
+
+                <div class="input-box">
+                    <label>City</label>
+                    <input type="text" name="city" required>
+                </div>
+
+                <div class="input-box">
+                    <label>State</label>
+                    <input type="text" name="state" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Pincode</label>
+                    <input type="text" name="pincode" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Country</label>
+                    <input type="text" name="country" required>
+                </div>
+
+            </div>
+
+        </div>
+
+
+      
+        <!-- Payment -->
+
+        <div class="card">
+
+            {% comment %} <h2>Payment Method</h2>
+
+            <div class="payment-box">
+
+                <label>
+
+                    <input type="radio" name="payment_method" value="COD" checked>
+
+                    Cash on Delivery
+
+                </label>
+
+                <label>
+
+                    <input type="radio" name="payment_method " value="UPI">
+
+                    UPI
+
+                </label>
+
+                <label>
+
+                    <input type="radio" name="payment_method" value="CARD">
+
+                    Card
+
+                </label>
+
+                <label>
+
+                    <input type="radio" name="payment_method" value="NET">
+
+                    Net Banking
+
+                </label>
+
+            </div> {% endcomment %}
+
+        </div>
+
+    </div>
+
+
+ <!-- RIGHT SIDE -->
+
+    <div class="right-side">
+
+        <div class="summary">
+            <h2>Order Summary</h2>
+            {% for x in data %}
+            
+
+            <div class="product">
+
+                <img src="{{x.Product.imge.url}}">
+
+                <div>
+                   
+
+                    <h3>{{x.Product.Flower}}</h3>
+
+                    <p>₹{{ x.Product.final_price }} × {{ x.quantity }}</p>
+
+                </div>
+
+            </div>
+             {% endfor %}
+
+            <hr>
+
+            <div class="price">
+
+                <span>Best Products</span>
+
+                <span>Caring Flower</span>
+
+            </div>
+
+            <div class="price">
+
+                <span>Delivery</span>
+
+                <span>Free</span>
+
+            </div>
+
+            <div class="price total">
+
+                <span>Total</span>
+
+                <span>₹{{ total }}</span>
+
+            </div>
+
+            <button class="place-btn" type="submit">
+
+                Place Order
+
+            </button>
+    </form> 
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+</body>
+</html>
