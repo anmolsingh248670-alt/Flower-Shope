@@ -20,8 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-61svw+6&^$!9*(ufpz(d@+s$h^93^1w1+#r0ptst#b9dk7dg3a'
-
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -139,11 +138,10 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # your email add
-EMAIL_HOST_USER = 'anmolsingh248670@gmail.com'
-EMAIL_HOST_PASSWORD = 'zytezanzyxfvmiru'  
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-# payment
-RAZORPAY_KEY_ID = "rzp_test_TCeTa5MhIxmAIy"
-RAZORPAY_KEY_SECRET = "HjkM6688ztshefPEyUUdXWVf"
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
    
    
