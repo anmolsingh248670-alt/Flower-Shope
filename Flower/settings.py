@@ -140,13 +140,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # Email Setting
 
+# Email Setting
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# your email add
-EMAIL_HOST_USER = 'anmolsingh248670@gmail.com'
-EMAIL_HOST_PASSWORD = 'zytezanzyxfvmiru'  
+
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
 
 # payment
 RAZORPAY_KEY_ID = "rzp_test_TCeTa5MhIxmAIy"
