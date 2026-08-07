@@ -152,7 +152,8 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 
 # payment
-RAZORPAY_KEY_ID = "rzp_test_TCeTa5MhIxmAIy"
-RAZORPAY_KEY_SECRET = "HjkM6688ztshefPEyUUdXWVf"
+RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.environ.get("RAZPAY_KEY_SECRET")
+
    
    
