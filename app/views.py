@@ -211,13 +211,19 @@ def home_account (request):
         request.session['email'] = email
         request.session['password'] = password
         
-        send_mail(
-            'Flower shop OTP verification',
-            f'Your otp is {otp}',
-            'anmolsingh248670@gmail.com',
-            [email]
-            
-        )
+        from django.conf import settings
+
+        try:
+            send_mail(
+                'Flower shop OTP verification',
+                f'Your otp is {otp}',
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=True
+            )
+        except Exception as e:
+            print("EMAIL ERROR:", e)
+
         
         return redirect('verify_otp')
        
