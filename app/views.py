@@ -207,6 +207,8 @@ def home_account (request):
         request.session['email'] = email
         request.session['password'] = password
         
+        print("BEFORE SEND MAIL")
+        
         send_mail(
             'Flower shop OTP verification',
             f'Your otp is {otp}',
@@ -215,6 +217,7 @@ def home_account (request):
             fail_silently=False,
             
         )
+        print("AFTER SEND MAIL")
         
         return redirect('verify_otp')
        
