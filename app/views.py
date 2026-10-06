@@ -16,21 +16,17 @@ def home(request):
     cart_items = Cart.objects.none()
     cart_quantity = 0
     total = 0
-
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
-
         for item in cart_items:
             cart_quantity += item.quantity
             total += item.quantity * item.Product.final_price
-
     context = {
         'data': data,
         'cart_items': cart_items,
         'total': total,
         'cart_quantity': cart_quantity,
     }
-
     return render(request, 'home.html', context)
 # by products Page 
 @login_required(login_url='home_login')
@@ -182,80 +178,47 @@ def Flower_detales(request,my_id):
     
     return render(request,'Dettles.html',{'data1':data1})
 # home account page
-from django.conf import settings
-from django.core.mail import send_mail
-
-
-def home_account(request):
-
+def home_account (request):
+    
     if request.method == 'POST':
-
+        # username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
-
-
-        # Password match check
+        
         if password != password2:
-            messages.error(request, 'Password is not match')
-            return render(request, 'home_account.html')
-
-
-        # Password length check
+            messages.error(request,'password is not match')
+            return render(request,'home_account.html')
+        
         if len(password) < 8:
-            messages.error(
-                request,
-                'Password must be at least 8 characters long.'
-            )
-            return render(request, 'home_account.html')
-
-
-        # Email exists check
+            
+          messages.error(request, 'Password must be at least 8 characters long.')
+          return render(request,'home_account.html')  # replace with your URL name
+        
+        
         if User.objects.filter(email=email).exists():
-            messages.error(
-                request,
-                'Email already exists. Choose another email.'
-            )
-            return render(request, 'home_account.html')
-
-
-        # Generate OTP
+            messages.error(request,'Emale id Exists \n You Chose Defrant Emaile')
+            return render(request,'home_account.html')
+        
+        # User.objects.create_user(username = email, email = email, password = password)
         otp = random.randint(100000, 999999)
-
-
-        # Save OTP in session
+        
         request.session['otp'] = str(otp)
         request.session['email'] = email
         request.session['password'] = password
-
-
-        # Send OTP Email
-        try:
-            send_mail(
-                subject='Flower Shop OTP Verification',
-                message=f'Your OTP is {otp}',
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[email],
-                fail_silently=False
-            )
-
-            print("OTP Email Sent Successfully")
-
-        except Exception as e:
-            print("EMAIL ERROR:", e)
-
-            messages.error(
-                request,
-                "Email service is not working. Please try again later."
-            )
-            return render(request, 'home_account.html')
-
-
+        
+        send_mail(
+            'Flower shop OTP verification',
+            f'Your otp is {otp}',
+            'anmolsingh248670@gmail.com',
+            [email]
+            
+        )
+        
         return redirect('verify_otp')
-
-
-    return render(request, 'home_account.html')
-
+       
+    
+    return render(request,'home_account.html')
 
 # verify_otp
 def verrify_otp (request):
