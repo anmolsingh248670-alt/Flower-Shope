@@ -211,7 +211,8 @@ def home_account (request):
             'Flower shop OTP verification',
             f'Your otp is {otp}',
             'anmolsingh248670@gmail.com',
-            [email]
+            [email],
+            fail_silently=False,
             
         )
         

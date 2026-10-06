@@ -137,7 +137,7 @@ LOGIN_REDIRECT_URL = 'home'
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')   
 
 
 # Email Setting
@@ -152,7 +152,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_TIMEOUT = 30
+EMAIL_TIMEOUT = 10
 
 
 RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
