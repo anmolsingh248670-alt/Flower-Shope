@@ -180,6 +180,9 @@ def Flower_detales(request,my_id):
 # home account page
 def home_account (request):
     
+    print("EMAIL USER EXISTS:", bool(settings.EMAIL_HOST_USER))
+    print("EMAIL PASSWORD EXISTS:", bool(settings.EMAIL_HOST_PASSWORD))
+    
     if request.method == 'POST':
         # username = request.POST.get('username')
         email = request.POST.get('email')
