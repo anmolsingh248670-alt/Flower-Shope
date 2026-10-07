@@ -178,55 +178,67 @@ def Flower_detales(request,my_id):
     
     return render(request,'Dettles.html',{'data1':data1})
 # home account page
-def home_account (request):
-    
+def home_account(request):
+
     print("EMAIL USER EXISTS:", bool(settings.EMAIL_HOST_USER))
     print("EMAIL PASSWORD EXISTS:", bool(settings.EMAIL_HOST_PASSWORD))
-    
+
     if request.method == 'POST':
-        # username = request.POST.get('username')
+
         email = request.POST.get('email')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
-        
+
         if password != password2:
-            messages.error(request,'password is not match')
-            return render(request,'home_account.html')
-        
+            messages.error(request, 'Password is not matching')
+            return render(request, 'home_account.html')
+
         if len(password) < 8:
-            
-          messages.error(request, 'Password must be at least 8 characters long.')
-          return render(request,'home_account.html')  # replace with your URL name
-        
-        
+            messages.error(
+                request,
+                'Password must be at least 8 characters long.'
+            )
+            return render(request, 'home_account.html')
+
         if User.objects.filter(email=email).exists():
-            messages.error(request,'Emale id Exists \n You Chose Defrant Emaile')
-            return render(request,'home_account.html')
-        
-        # User.objects.create_user(username = email, email = email, password = password)
+            messages.error(
+                request,
+                'Email already exists. Please choose another email.'
+            )
+            return render(request, 'home_account.html')
+
         otp = random.randint(100000, 999999)
-        
+
         request.session['otp'] = str(otp)
         request.session['email'] = email
         request.session['password'] = password
-        
-        print("BEFORE SEND MAIL")
-        
-        send_mail(
-            'Flower shop OTP verification',
-            f'Your otp is {otp}',
-            'anmolsingh248670@gmail.com',
-            [email],
-            fail_silently=False,
-            
-        )
-        print("AFTER SEND MAIL")
-        
-        return redirect('verify_otp')
-       
-    
-    return render(request,'home_account.html')
 
+        print("BEFORE SEND MAIL")
+
+        try:
+            send_mail(
+                'Flower shop OTP verification',
+                f'Your OTP is {otp}',
+                settings.DEFAULT_FROM_EMAIL,
+                [email],
+                fail_silently=False,
+            )
+
+            print("AFTER SEND MAIL")
+
+        except Exception as e:
+            print("EMAIL ERROR:", repr(e))
+
+            messages.error(
+                request,
+                'OTP email could not be sent. Please try again.'
+            )
+
+            return render(request, 'home_account.html')
+
+        return redirect('verify_otp')
+
+    return render(request, 'home_account.html')
 # verify_otp
 def verrify_otp (request):
     
