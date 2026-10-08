@@ -1,13 +1,15 @@
-from django.shortcuts import render,redirect
-from .models import add_product,Cart,Adders,Review,OrderItem
+from django.shortcuts import render, redirect, get_object_or_404
+from django.conf import settings
+from .models import add_product, Cart, Adders, Review, OrderItem, Order, Contact
 from .forms import add_projuct_Forms
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 import random
-from django.core.mail import send_mail
-
+from datetime import date, timedelta
 # Create your views here.
 def home(request):
 
@@ -680,6 +682,15 @@ from .models import Contact
 @login_required(login_url='home_login')
 def contact(request):
 
+    cart_items = Cart.objects.filter(user=request.user)
+
+    cart_quantity = 0
+    total = 0
+
+    for item in cart_items:
+        cart_quantity += item.quantity
+        total += item.quantity * item.Product.final_price
+
     if request.method == "POST":
 
         full_name = request.POST.get("full_name")
@@ -688,6 +699,7 @@ def contact(request):
         subject = request.POST.get("subject")
         message = request.POST.get("message")
 
+        # Save message in database
         Contact.objects.create(
             full_name=full_name,
             email=email,
@@ -696,10 +708,18 @@ def contact(request):
             message=message,
         )
 
-        # Email to website owner
-        send_mail(
-            subject=f"New Contact: {subject}",
-            message=f"""
+        try:
+
+            # =========================
+            # EMAIL TO WEBSITE OWNER
+            # =========================
+
+            send_mail(
+                subject=f"New Contact: {subject}",
+
+                message=f"""
+New message from your Flower Shop website.
+
 Name: {full_name}
 
 Email: {email}
@@ -711,14 +731,25 @@ Subject: {subject}
 Message:
 {message}
 """,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.EMAIL_HOST_USER],
-        )
 
-        # Thank you email to customer
-        send_mail(
-            subject="Thank You for Contacting Bloomy Flowers",
-            message=f"""
+                from_email=settings.DEFAULT_FROM_EMAIL,
+
+                recipient_list=[
+                    settings.DEFAULT_FROM_EMAIL
+                ],
+
+                fail_silently=False,
+            )
+
+
+            # =========================
+            # THANK YOU EMAIL
+            # =========================
+
+            send_mail(
+                subject="Thank You for Contacting Bloomy Flowers",
+
+                message=f"""
 Hello {full_name},
 
 Thank you for contacting Bloomy Flowers.
@@ -729,36 +760,39 @@ Have a wonderful day!
 
 Bloomy Flowers Team
 """,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[email],
-        )
 
-        messages.success(request, "Message sent successfully!")
+                from_email=settings.DEFAULT_FROM_EMAIL,
+
+                recipient_list=[
+                    email
+                ],
+
+                fail_silently=False,
+            )
+
+            messages.success(
+                request,
+                "Message sent successfully! Please check your email."
+            )
+
+        except Exception as e:
+
+            print("CONTACT EMAIL ERROR:", repr(e))
+
+            messages.warning(
+                request,
+                "Your message was saved, but the email could not be sent."
+            )
 
         return redirect("contact")
-    cart_items = Cart.objects.filter(
-        user=request.user
-    )
-    cart_quantity = 0
-
-    for item in cart_items:
-     cart_quantity += item.quantity
-
-    total = 0
-
-    for item in cart_items:
-        total += item.quantity * item.Product.final_price
 
     context = {
-        'cart_items': cart_items,
-        'total': total,
-        'cart_quantity': cart_quantity,
+        "cart_items": cart_items,
+        "total": total,
+        "cart_quantity": cart_quantity,
     }
 
-
-    return render(request, "contact.html",context) 
-
-
+    return render(request, "contact.html", context)
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, get_object_or_404
