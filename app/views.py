@@ -83,26 +83,28 @@ def About (request):
     return render(request,'about.html',context)
 
 # admin user page 
-def admin_user (request):
+# Admin login
+def admin_user(request):
     if request.method == 'POST':
         username = request.POST.get('name')
         password = request.POST.get('password')
-        user = authenticate(request,username=username,password=password)    
-        if user is not None and user.is_superuser:
-            login(request,user)
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None and user.is_staff and user.is_superuser:
+            login(request, user)
             return redirect('admin_orders')
-        else:
-            messages.error(request,'your are Not Admin user')      
-    return render(request,'admin_login.html')
 
-# Admin logout view 
-def logout_view(request):
-    # Logs out the user
-    logout(request)
-    
-    # Redirect to homepage (or login page)
-    return redirect('home')  # replace 'home' with your url name
+        messages.error(
+            request,
+            'Invalid admin username or password'
+        )
 
+    return render(request, 'admin_login.html')
 # home logout view Admin
 def logout_home(request):
     
