@@ -632,9 +632,11 @@ def my_orders(request):
 
     orders = Order.objects.filter(
         user=request.user
-    ).order_by('-created_at')
+    ).order_by('-created_at').prefetch_related('items__product')
 
-    cart_items = Cart.objects.filter(user=request.user)
+    cart_items = Cart.objects.filter(
+        user=request.user
+    ).select_related('Product')
 
     cart_quantity = sum(
         item.quantity for item in cart_items
@@ -653,7 +655,6 @@ def my_orders(request):
     }
 
     return render(request, 'orders.html', context)
-
 
 
 #  Oneline payment
