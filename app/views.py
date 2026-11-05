@@ -610,33 +610,31 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Order
 
+
 @login_required(login_url='home_login')
 def my_orders(request):
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    data = add_product.objects.all()
-    cart_items = Cart.objects.filter(
+
+    orders = Order.objects.filter(
         user=request.user
+    ).order_by('-created_at')
+
+    cart_items = Cart.objects.filter(user=request.user)
+
+    cart_quantity = sum(item.quantity for item in cart_items)
+
+    total = sum(
+        item.quantity * item.Product.final_price
+        for item in cart_items
     )
-    cart_quantity = 0
-
-    for item in cart_items:
-     cart_quantity += item.quantity
-
-    total = 0
-
-    for item in cart_items:
-        total += item.quantity * item.Product.final_price
 
     context = {
-        'data':data,
         'orders': orders,
         'cart_items': cart_items,
         'total': total,
         'cart_quantity': cart_quantity,
     }
 
-    
-    return render(request, 'orders.html',context)
+    return render(request, 'orders.html', context)
 
 
 #  Oneline payment
