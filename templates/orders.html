@@ -1,7 +1,9 @@
 
 {% load static %}
 <link rel="stylesheet" href="{% static "style.css" %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 <header>
      <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
       <h1 id="h" >Flower <span>.</span></h1>
@@ -210,33 +212,38 @@ table{
 
     {% if cart_items %}
 
-      {% for item in cart_items %}
-      <div class="cart_box">
+    {% for item in cart_items %}
 
-      <h4>{{ item.Product.Flower }}</h4>
+    <div class="cart_box">
 
-       <p>₹ {{ item.Product.final_price }}</p>
-       
-       <a href="{% url 'minus_cart' item.id %}">-</a>
-       <p> {{ item.quantity }}</p>
-       <a href="{% url 'plus_cart' item.id %}">+</a>
-       
+        <h4>{{ item.Product.Flower }}</h4>
 
-       
-  
+        <p>₹{{ item.Product.final_price }}</p>
+
+        <a href="{% url 'minus_cart' item.id %}">-</a>
+
+        <p>{{ item.quantity }}</p>
+
+        <a href="{% url 'plus_cart' item.id %}">+</a>
+
+    </div>
+
     {% endfor %}
-   
-      <div class="cart-items"></div>
-      </div>
-      <div class="total">
-        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
-      </div>
-      <button class="buy btn" ><a href="{% url "Chek_out" %}">buy</a></button>
-       {% else %}
-    <h1>you carte is Empty</h1>
-    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
 
-    {% endif %}
+    <div class="total">
+        <h3>Total Bill</h3>
+        <h3 class="total3">₹{{ total }}</h3>
+    </div>
+
+    <a href="{% url 'Chek_out' %}" class="buy btn">Buy</a>
+
+{% else %}
+
+    <h1>Your Cart is Empty</h1>
+
+    <a href="{% url 'products' %}" class="btn btn12">Shop Now</a>
+
+{% endif %}
 
     </div>  
     
