@@ -342,7 +342,8 @@ table{
 
         <div class="empty">
 
-            <img src="{% static 'image/empty-order.png' %}" alt="No Orders">
+            {% comment %} <img src="{% static 'image/empty-order.png' %}" alt="No Orders"> {% endcomment %}
+            <p class="empty-message">You haven't placed any orders yet.</p>
 
             <h3>No Orders Found</h3>
 
