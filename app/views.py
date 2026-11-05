@@ -626,6 +626,7 @@ from django.shortcuts import render
 from .models import Order
 
 
+
 @login_required(login_url='home_login')
 def my_orders(request):
 
@@ -635,7 +636,9 @@ def my_orders(request):
 
     cart_items = Cart.objects.filter(user=request.user)
 
-    cart_quantity = sum(item.quantity for item in cart_items)
+    cart_quantity = sum(
+        item.quantity for item in cart_items
+    )
 
     total = sum(
         item.quantity * item.Product.final_price
@@ -650,6 +653,7 @@ def my_orders(request):
     }
 
     return render(request, 'orders.html', context)
+
 
 
 #  Oneline payment

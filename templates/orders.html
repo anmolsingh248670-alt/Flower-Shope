@@ -1,9 +1,11 @@
 
 {% load static %}
-<link rel="stylesheet" href="{% static "style.css" %}">
+{% comment %} <link rel="stylesheet" href="{% static "style.css" %}"> {% endcomment %}
 {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+{% comment %} <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"> {% endcomment %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 <header>
      <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
       <h1 id="h" >Flower <span>.</span></h1>
@@ -27,11 +29,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
     </div>
     
-    {% if user.is_authenticated %}
+    {% comment %} {% if user.is_authenticated %}
       <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
       {% else %}
        <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
-    {% endif %}   
+    {% endif %}    {% endcomment %}
+
+    {% if user.is_authenticated %}
+    <button class="login">
+        <a href="{% url 'logout_home' %}">Logout</a>
+    </button>
+{% else %}
+    <button class="login" id="btn_2">
+        <a id="btn_3" href="{% url 'home_login' %}">Login</a>
+    </button>
+{% endif %}
        
     </header>
 
@@ -283,60 +295,46 @@ table{
                 </tr>
             </thead>
 
-           <tbody>
-
+          <tbody>
 {% for order in orders %}
 
     {% for item in order.items.all %}
-
     <tr>
-
         <td>#{{ order.id }}</td>
-
         <td>{{ item.product.Flower }}</td>
-
         <td>{{ item.quantity }}</td>
-
         <td>₹{{ item.price }}</td>
-
         <td>{{ order.payment_method }}</td>
 
         <td>
             {% if order.status == "Pending" %}
                 <span class="badge pending">Pending</span>
-
             {% elif order.status == "Shipped" %}
                 <span class="badge shipped">Shipped</span>
-
             {% elif order.status == "Cancelled" %}
-                <span class="badge Cancelled">Cancelled</span>                        
-
+                <span class="badge Cancelled">Cancelled</span>
             {% elif order.status == "Processing" %}
-                <span class="badge Processing">Processing</span>                        
-                
-
+                <span class="badge Processing">Processing</span>
             {% else %}
-                <span class="badge delivered">Delivered</span>
+                <span class="badge delivered">{{ order.status }}</span>
             {% endif %}
         </td>
 
         <td>{{ order.created_at|date:"d M Y" }}</td>
-
     </tr>
-
+    {% empty %}
+    <tr>
+        <td colspan="7">No products in this order.</td>
+    </tr>
     {% endfor %}
 
 {% empty %}
-
-<tr>
-    <td colspan="7" style="text-align:center;">
-        No Orders Found
-    </td>
-</tr>
-
+    <tr>
+        <td colspan="7">No Orders Found</td>
+    </tr>
 {% endfor %}
-
 </tbody>
+
 
         </table>
 

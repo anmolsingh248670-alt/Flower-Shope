@@ -96,23 +96,29 @@ class Order(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     address = models.ForeignKey(
         Adders,
         on_delete=models.SET_NULL,
         null=True
     )
+
     total_price = models.IntegerField()
+
     payment_method = models.CharField(
         max_length=20,
         choices=PAYMENT_METHODS,
         default="COD"
     )
+
     delivery_date = models.DateField()
+
     status = models.CharField(
         max_length=20,
         choices=STATUS,
         default="Pending"
     )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -120,16 +126,20 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
         related_name="items"
     )
+
     product = models.ForeignKey(
         add_product,
         on_delete=models.CASCADE
     )
+
     quantity = models.IntegerField()
+
     price = models.IntegerField()
 
     def __str__(self):
