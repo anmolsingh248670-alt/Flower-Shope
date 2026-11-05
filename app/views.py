@@ -656,8 +656,8 @@ def my_orders(request):
 
         return render(request, 'orders.html', context)
 
-    except Exception:
-        print("MY ORDERS ERROR:")
+    except Exception as e:
+        print("MY ORDERS ERROR:", repr(e), flush=True)
         traceback.print_exc()
         raise
 
