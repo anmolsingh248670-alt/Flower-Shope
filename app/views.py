@@ -627,34 +627,39 @@ from .models import Order
 
 
 
+import traceback
+
 @login_required(login_url='home_login')
 def my_orders(request):
+    try:
+        orders = Order.objects.filter(
+            user=request.user
+        ).order_by('-created_at').prefetch_related('items__product')
 
-    orders = Order.objects.filter(
-        user=request.user
-    ).order_by('-created_at').prefetch_related('items__product')
+        cart_items = Cart.objects.filter(
+            user=request.user
+        ).select_related('Product')
 
-    cart_items = Cart.objects.filter(
-        user=request.user
-    ).select_related('Product')
+        cart_quantity = sum(item.quantity for item in cart_items)
 
-    cart_quantity = sum(
-        item.quantity for item in cart_items
-    )
+        total = sum(
+            item.quantity * item.Product.final_price
+            for item in cart_items
+        )
 
-    total = sum(
-        item.quantity * item.Product.final_price
-        for item in cart_items
-    )
+        context = {
+            'orders': orders,
+            'cart_items': cart_items,
+            'total': total,
+            'cart_quantity': cart_quantity,
+        }
 
-    context = {
-        'orders': orders,
-        'cart_items': cart_items,
-        'total': total,
-        'cart_quantity': cart_quantity,
-    }
+        return render(request, 'orders.html', context)
 
-    return render(request, 'orders.html', context)
+    except Exception:
+        print("MY ORDERS ERROR:")
+        traceback.print_exc()
+        raise
 
 
 #  Oneline payment
