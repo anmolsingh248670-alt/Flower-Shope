@@ -930,26 +930,6 @@ from .models import Wishlist, add_product
 @login_required
 def toggle_wishlist(request, id):
     product = get_object_or_404(add_product, id=id)
-    
-    # 
-    data = add_product.objects.all()
-    
-    cart_items = Cart.objects.filter(
-            user=request.user
-    )
-    cart_quantity = 0
-    
-    for item in cart_items:
-        cart_quantity += item.quantity
-    
-        total = 0
-    
-        for item in cart_items:
-            total += item.quantity * item.Product.final_price
-    
-    
-    
-    # 
 
     wishlist_item = Wishlist.objects.filter(
         user=request.user,
@@ -970,10 +950,6 @@ def wishlist(request):
     items = Wishlist.objects.filter(user=request.user)
 
     context = {
-        "items": items,
-        'data': data,
-        'cart_items': cart_items,
-        'total': total,
-        'cart_quantity': cart_quantity,
+        "items": items
     }
     return render(request, "wishlist.html", context) 
