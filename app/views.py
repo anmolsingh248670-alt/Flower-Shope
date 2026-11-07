@@ -886,7 +886,7 @@ def add_details(request):
 
 # Profile start
 from .models import Profile
-
+@login_required(login_url='home_login')
 def profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     total_orders = Order.objects.filter(user=request.user).count()
@@ -964,6 +964,7 @@ def toggle_wishlist(request, id):
 
     return redirect(request.META.get("HTTP_REFERER", "home"))
 
+@login_required(login_url='home_login')
 def wishlist(request):
     items = Wishlist.objects.filter(user=request.user)
     
