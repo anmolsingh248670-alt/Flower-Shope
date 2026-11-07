@@ -18,42 +18,89 @@
 </head>
 
 <body>
-  <header>
-    <h1>Flower <span>.</span></h1>
+ <header>
+     <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
+      <h1 id="h" >Flower <span>.</span></h1>
 
-    <nav class="navbar">
-      <a href="{% url 'home' %}" id="home1">Home</a>
-      <a href="{% url 'About' %}">About</a>
-      <a href="{% url 'products' %}" id="tap">Products</a>
-      <a href="#Review" id="review-button">Review</a>
-      <a href="#Contact">Contact</a>
-    </nav>
+      <nav class="navbar" id="navbtn">
+        <a  href="{% url 'home' %}" id="home1">Home</a>
+        <a  href="{% url "About" %}">About</a>
+        <a  href="{% url 'products' %}" id="tap">Products</a>
+        <a  href="{% url "review" %}" id="review-button">Review</a>
+        <a  href="{% url "my_orders" %}" id="review-button">Orders</a>
+        <a  href="{% url "contact" %}">Contact</a>   
+        <a id="x" href="#">Exite <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        
+      </nav>
 
     <div class="icon">
-      <a><i class="fa-solid fa-heart"></i></a>
-      <a><i id="cart-add" class="fa-solid fa-cart-shopping"></i></a>
-      <span class="count">0</span>
-      <a><i class="fa-solid fa-user"></i></a>
+    <a href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
+    <a href="#" class="cart-icon">
+    <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
+    <span class="count">{{ cart_quantity }}</span>
+    </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
     </div>
-  </header>
-  <!-- side barsaction start -->
+    
+    {% if user.is_authenticated %}
+      <button class="login" ><a  href="{% url "logout_home" %}">Logout</a ></button id='login'>
+      {% else %}
+       <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
+    {% endif %}   
+       
+    </header>
+   <!-- side barsaction start -->
 
-  <div class="side" id="sidebar">
-    <div class="slide1">
-      <h1>Your Flower Cart 🌸</h1>
-      <div class="van">
-        <img src="{% static 'img/van.png' %}" alt="" />
-      </div>
+<div class="side" id="sidebar">
 
+  <div class="slide1">
+
+        <h1>Your Flower Cart 🌸</h1>
+    <div class="van">
+          <img src="{% static 'img/van.png' %}" alt="">
+    </div>
+
+    
+
+    {% if cart_items %}
+
+      {% for item in cart_items %}
+      <div class="cart_box">
+
+      <h4>{{ item.Product.Flower }}</h4>
+
+       <p>₹ {{ item.Product.final_price }}</p>
+       
+       <a href="{% url 'minus_cart' item.id %}">-</a>
+       <p> {{ item.quantity }}</p>
+       <a href="{% url 'plus_cart' item.id %}">+</a>
+       
+
+       
+  
+    {% endfor %}
+   
       <div class="cart-items"></div>
-    </div>
-    <div class="total">
-      <h3 id="total">total bile<p id="sum_of">0</p>
-      </h3>
-    </div>
-  </div>
+      </div>
+      <div class="total">
+        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
+      </div>
+      <button class="buy" ><a href="{% url "Chek_out" %}">buy</a></button>
+       {% else %}
+    <h1>you carte is Empty</h1>
+    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
 
-  <!-- side barsaction End -->
+    {% endif %}
+
+    </div>  
+    
+
+ </div>
+    
+    
+
+    
+    
+    <!-- side barsaction End -->
 
   <br /><br /><br /><br />
 
