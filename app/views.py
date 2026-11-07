@@ -910,6 +910,24 @@ def profile(request):
             profile.image = request.FILES["image"]
 
         profile.save()
+        
+        
+    cart_items = Cart.objects.filter(user=request.user)
+       
+    cart_quantity = 0
+    total = 0
+       
+    for item in cart_items:
+            cart_quantity += item.quantity
+            total += item.quantity * item.Product.final_price
+        
+           
+    
+    context = {
+        'cart_items': cart_items,
+        'total': total,
+        'cart_quantity': cart_quantity,
+        }    
 
 
     context = {

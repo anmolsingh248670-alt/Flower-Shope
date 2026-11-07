@@ -49,21 +49,76 @@
       </nav>
 
     <div class="icon">
-    <a href="#"><i class="fa-solid fa-heart"></i></a>
+    <a href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
     <a href="#" class="cart-icon">
     <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
     <span class="count">{{ cart_quantity }}</span>
-    </a><a href="#"><i class="fa-solid fa-user"></i></a>
+    </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
     </div>
     
     {% if user.is_authenticated %}
-      <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
+      <button class="login" ><a  href="{% url "logout_home" %}">Logout</a ></button id='login'>
       {% else %}
        <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
     {% endif %}   
-    
        
     </header>
+
+
+     <!-- side barsaction start -->
+
+<div class="side" id="sidebar">
+
+  <div class="slide1">
+
+        <h1>Your Flower Cart 🌸</h1>
+    <div class="van">
+          <img src="{% static 'img/van.png' %}" alt="">
+    </div>
+
+    
+
+    {% if cart_items %}
+
+      {% for item in cart_items %}
+      <div class="cart_box">
+
+      <h4>{{ item.Product.Flower }}</h4>
+
+       <p>₹ {{ item.Product.final_price }}</p>
+       
+       <a href="{% url 'minus_cart' item.id %}">-</a>
+       <p> {{ item.quantity }}</p>
+       <a href="{% url 'plus_cart' item.id %}">+</a>
+       
+
+       
+  
+    {% endfor %}
+   
+      <div class="cart-items"></div>
+      </div>
+      <div class="total">
+        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
+      </div>
+      <button class="buy" ><a href="{% url "Chek_out" %}">buy</a></button>
+       {% else %}
+    <h1>you carte is Empty</h1>
+    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
+
+    {% endif %}
+
+    </div>  
+    
+
+ </div>
+    
+    
+
+    
+    
+    <!-- side barsaction End -->
+
 
 <!--================ TITLE ================-->
 
@@ -243,4 +298,5 @@ value="{{ profile.dob }}" required>
 </div>
 
 </body>
+<script src="{% static "app.js" %}"></script>
 </html>
