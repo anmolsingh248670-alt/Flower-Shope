@@ -262,7 +262,7 @@ h2{
 
 <div class="review-card">
 
-   <h2 class="letter">{{ review.first_letter }}</h2>
+   <h2 class="letter">{{ request.user.username|first|upper }}</h2>
    
    
    <h3>{{ review.user.username }}</h3>
