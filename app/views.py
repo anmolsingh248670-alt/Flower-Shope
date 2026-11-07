@@ -948,8 +948,27 @@ def toggle_wishlist(request, id):
 
 def wishlist(request):
     items = Wishlist.objects.filter(user=request.user)
+    
+    
+    cart_items = Cart.objects.filter(
+            user=request.user
+        )
+    cart_quantity = 0
+    
+    for item in cart_items:
+        cart_quantity += item.quantity
+    
+        total = 0
+    
+        for item in cart_items:
+            total += item.quantity * item.Product.final_price
+    
+       
 
     context = {
-        "items": items
+        "items": items,
+        'cart_items': cart_items,
+        'total': total,
+        'cart_quantity': cart_quantity,
     }
     return render(request, "wishlist.html", context) 
