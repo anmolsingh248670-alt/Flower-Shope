@@ -923,11 +923,7 @@ def profile(request):
         
            
     
-    context = {
-        'cart_items': cart_items,
-        'total': total,
-        'cart_quantity': cart_quantity,
-        }    
+  
 
 
     context = {
@@ -936,6 +932,9 @@ def profile(request):
     "total_addresses": total_addresses,
     "cart_items": cart_items,
     "total_spent": total_spent,
+    'cart_items': cart_items,
+    'total': total,
+    'cart_quantity': cart_quantity,
 }
 
     return render(request, "profile.html", context)
