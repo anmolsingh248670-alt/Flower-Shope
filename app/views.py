@@ -950,18 +950,14 @@ def wishlist(request):
     items = Wishlist.objects.filter(user=request.user)
     
     
-    cart_items = Cart.objects.filter(
-            user=request.user
-        )
+    cart_items = Cart.objects.filter(user=request.user)
+   
     cart_quantity = 0
-    
+    total = 0
+   
     for item in cart_items:
         cart_quantity += item.quantity
-    
-        total = 0
-    
-        for item in cart_items:
-            total += item.quantity * item.Product.final_price
+        total += item.quantity * item.Product.final_price
     
        
 
