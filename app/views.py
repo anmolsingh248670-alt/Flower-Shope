@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 import random
+from django.db.models import Q, Sum
 from datetime import date, timedelta
 # Create your views here.
 def home(request):
@@ -182,6 +183,36 @@ def Flower_detales(request,my_id):
     
     return render(request,'Dettles.html',{'data1':data1})
 # home account page
+from django.contrib.admin.views.decorators import staff_member_required
+
+@staff_member_required
+def add_details(request):
+
+    if request.method == "POST":
+
+        product = add_product.objects.get(
+            id=request.POST.get("detales")
+        )
+
+        Detales.objects.update_or_create(
+            detales=product,
+            defaults={
+                "header": request.POST.get("header"),
+                "Color": request.POST.get("Color"),
+                "text": request.POST.get("text"),
+                "date": request.POST.get("date"),
+            }
+        )
+
+        return redirect("admin_orders")
+
+    products = add_product.objects.all()
+
+    return render(
+        request,
+        "add_details.html",
+        {"products": products}
+    )
 def home_account(request):
 
     print("EMAIL USER EXISTS:", bool(settings.EMAIL_HOST_USER))
@@ -945,23 +976,57 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order
 
+
 @staff_member_required
 def admin_orders(request):
 
-    search = request.GET.get("search")
+    search = request.GET.get("search", "").strip()
+
+    all_orders = Order.objects.all()
+
+    orders = all_orders.select_related(
+        "user", "address"
+    ).prefetch_related(
+        "items__product"
+    ).order_by("-created_at")
 
     if search:
-        orders = Order.objects.filter(
-            user__username__icontains=search
-        ) | Order.objects.filter(
-            id__icontains=search
-        )
-    else:
-        orders = Order.objects.all().order_by("-created_at")
+        orders = orders.filter(
+            Q(user__username__icontains=search) |
+            Q(id__icontains=search)
+        ).distinct()
 
-    return render(request, "admin_orders.html", {
-        "orders": orders
-    })
+    total_orders = all_orders.count()
+
+    pending_count = all_orders.filter(
+        status="Pending"
+    ).count()
+
+    delivered_count = all_orders.filter(
+        status="Delivered"
+    ).count()
+
+    total_revenue = all_orders.exclude(
+        status="Cancelled"
+    ).aggregate(
+        total=Sum("total_price")
+    )["total"] or 0
+
+    cancellation_requests = CancellationRequest.objects.select_related(
+        "order", "user"
+    ).order_by("-requested_at")
+
+    context = {
+        "orders": orders,
+        "search": search,
+        "total_orders": total_orders,
+        "pending_count": pending_count,
+        "delivered_count": delivered_count,
+        "total_revenue": total_revenue,
+        "cancellation_requests": cancellation_requests,
+    }
+
+    return render(request, "admin_orders.html", context)
 
 
 @staff_member_required
@@ -971,42 +1036,49 @@ def update_order(request, id):
 
     if request.method == "POST":
 
-        order.status = request.POST.get("status")
-        order.save()
+        new_status = request.POST.get("status")
+
+        valid_statuses = [
+            "Pending",
+            "Processing",
+            "Shipped",
+            "Delivered",
+            "Cancelled",
+        ]
+
+        if new_status in valid_statuses:
+            order.status = new_status
+            order.save(update_fields=["status"])
 
     return redirect("admin_orders")
- 
- 
-from django.shortcuts import render, redirect
-from .models import Detales, add_product
 
-def add_details(request):
+
+@staff_member_required
+def update_cancellation_request(request, id):
+
+    cancel_request = get_object_or_404(
+        CancellationRequest,
+        id=id
+    )
+
     if request.method == "POST":
-        print(request.POST)  # Debug
 
-        product = add_product.objects.get(id=request.POST.get("detales"))
-        Detales.objects.update_or_create(
-    detales=product,
-    defaults={
-        "header": request.POST.get("header"),
-        "Color": request.POST.get("Color"),
-        "text": request.POST.get("text"),
-        "date": request.POST.get("date"),
-    }
-)
+        new_status = request.POST.get("status")
 
-        # Detales.objects.create(
-        #     detales=product,
-        #     header=request.POST.get("header"),
-        #     Color=request.POST.get("Color"),
-        #     text=request.POST.get("text"),
-        #     date=request.POST.get("date"),
-        # )
+        if new_status in ["Approved", "Rejected"]:
 
-        return redirect("admin_orders")
+            if cancel_request.status == "Pending":
 
-    products = add_product.objects.all()
-    return render(request, "add_details.html", {"products": products})
+                cancel_request.status = new_status
+                cancel_request.save(update_fields=["status"])
+
+                if new_status == "Approved":
+                    order = cancel_request.order
+                    order.status = "Cancelled"
+                    order.save(update_fields=["status"])
+
+    return redirect("admin_orders")
+
 
 # Profile start
 from .models import Profile

@@ -1,26 +1,39 @@
+
 from django.urls import path
 from . import views
 
 urlpatterns = [
+
+    # Home
     path('', views.home, name='home'),
 
+    # Account / Login
     path('home_account/', views.home_account, name='home_account'),
     path('home_login/', views.home_login, name='home_login'),
     path('verify_otp/', views.verrify_otp, name='verify_otp'),
+    path('logout_home/', views.logout_home, name='logout_home'),
+    path('admin_logout/', views.logout_home, name='logout'),
 
+    # Products
     path('by_products/', views.by_products, name='products'),
-    path('by_products/<int:my_id>/', views.Flower_detales, name='Flower_detales'),
+    path(
+        'by_products/<int:my_id>/',
+        views.Flower_detales,
+        name='Flower_detales'
+    ),
 
     # Admin
     path('admin_user/', views.admin_user, name='admin_login'),
     path('admin_show/', views.admin_show, name='admin_show'),
-    path('admin_show/add_products/', views.add_products, name='add_products'),
+    path(
+        'admin_show/add_products/',
+        views.add_products,
+        name='add_products'
+    ),
     path('delete/<int:id>/', views.delete_product, name='delete_product'),
     path('edit/<int:id>/', views.edit_product, name='edit_product'),
-    path('admin_logout/', views.logout_home, name='logout'),
 
-    # Account
-    path('logout_home/', views.logout_home, name='logout_home'),
+    # Profile
     path('Profile/', views.profile, name='profile'),
 
     # Cart
@@ -28,7 +41,7 @@ urlpatterns = [
     path('plus_cart/<int:id>/', views.plus_cart, name='plus_cart'),
     path('minus_cart/<int:id>/', views.minus_cart, name='minus_cart'),
 
-    # Other pages
+    # Other Pages
     path('About/', views.About, name='About'),
     path('review/', views.review, name='review'),
     path('contact/', views.contact, name='contact'),
@@ -37,20 +50,34 @@ urlpatterns = [
     path('payment/', views.payment, name='payment'),
     path('Chek_out/', views.Chek_out, name='Chek_out'),
     path('Place_Order/', views.Place_Order, name='Place_Order'),
-    path('my-orders/', views.my_orders, name='my_orders'),
-    path('cancel-order/<int:order_id>/',views.cancellation_request,name='cancellation_request'
-),
     path(
         'razorpay-payment/',
         views.razorpay_payment,
         name='razorpay_payment'
     ),
 
-    # Orders
-    path('admin_orders/', views.admin_orders, name='admin_orders'),
-    path('update-order/<int:id>/', views.update_order, name='update_order'),
+    # Customer Orders / Cancellation
+    path('my-orders/', views.my_orders, name='my_orders'),
+    path(
+        'cancel-order/<int:order_id>/',
+        views.cancellation_request,
+        name='cancellation_request'
+    ),
 
-    # Details
+    # Admin Order Management
+    path('admin_orders/', views.admin_orders, name='admin_orders'),
+    path(
+        'update-order/<int:id>/',
+        views.update_order,
+        name='update_order'
+    ),
+    path(
+        'update-cancellation-request/<int:id>/',
+        views.update_cancellation_request,
+        name='update_cancellation_request'
+    ),
+
+    # Product Details
     path('add_detales/', views.add_details, name='add_detales'),
 
     # Wishlist
@@ -59,9 +86,6 @@ urlpatterns = [
         views.toggle_wishlist,
         name='toggle_wishlist'
     ),
-    path(
-        'whshilst/',
-        views.wishlist,
-        name='wishlist'
-    ),
+    path('whshilst/', views.wishlist, name='wishlist'),
+
 ]
