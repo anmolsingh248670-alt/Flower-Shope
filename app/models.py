@@ -192,3 +192,62 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.product.Flower}"
+    
+    
+    # Cancalation requeste
+    
+    
+class CancellationRequest(models.Model):
+
+    REASONS = (
+        ("Changed Mind", "Changed My Mind"),
+        ("Wrong Product", "Ordered Wrong Product"),
+        ("Wrong Address", "Wrong Delivery Address"),
+        ("Delivery Delay", "Delivery Taking Too Long"),
+        ("Other", "Other Reason"),
+    )
+
+    REQUEST_STATUS = (
+        ("Pending", "Pending"),
+        ("Approved", "Approved"),
+        ("Rejected", "Rejected"),
+    )
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="cancellation_requests"
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    reason = models.CharField(
+        max_length=100,
+        choices=REASONS
+    )
+
+    message = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=REQUEST_STATUS,
+        default="Pending"
+    )
+
+    requested_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return f"Cancellation Request - Order #{self.order.id}"
+

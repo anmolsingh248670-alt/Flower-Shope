@@ -1,275 +1,297 @@
 
 {% load static %}
-{% comment %} <link rel="stylesheet" href="{% static "style.css" %}"> {% endcomment %}
-{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
-{% comment %} <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"> {% endcomment %}
-<link rel="stylesheet" href="{% static 'style.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-<header>
-     <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
-      <h1 id="h" >Flower <span>.</span></h1>
 
-      <nav class="navbar" id="navbtn">
-        <a  href="{% url 'home' %}" id="home1">Home</a>
-        <a  href="{% url "About" %}">About</a>
-        <a  href="{% url 'products' %}" id="tap">Products</a>
-        <a  href="{% url "review" %}" id="review-button">Review</a>
-        <a  href="{% url "my_orders" %}" id="review-button">Orders</a>
-        <a  href="{% url "contact" %}">Contact</a>   
-        <a id="x" href="#">Exite <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
-        
-      </nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Flower Shop</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <style>
+        .count {
+            margin-top: -3px;
+        }
+
+        body {
+            background: #fff7f9;
+        }
+
+        .orders-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .orders-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #ff4f81;
+            color: #fff;
+        }
+
+        thead th {
+            padding: 18px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        tbody td {
+            padding: 18px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+        }
+
+        tbody tr:hover {
+            background: #fff5f8;
+        }
+
+        .badge {
+            padding: 8px 15px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pending {
+            background: #ff9800;
+        }
+
+        .shipped {
+            background: #2196f3;
+        }
+
+        .delivered {
+            background: #22c55e;
+        }
+
+        .payment {
+            color: #ff4f81;
+            font-weight: 600;
+        }
+
+        .Processing {
+            background-color: #555;
+        }
+
+        .Cancelled {
+            background-color: red;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .empty img {
+            width: 180px;
+            margin-bottom: 20px;
+        }
+
+        .empty h3 {
+            color: #555;
+        }
+
+        .shop-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #ff4f81;
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            transition: .3s;
+        }
+
+        .shop-btn:hover {
+            background: #ff2c69;
+        }
+
+        .cart_box {
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border: 1px solid black;
+            border-radius: 7px;
+        }
+
+        .btn {
+            height: 39px;
+            width: 125px;
+            border-radius: 20px;
+            font-size: 15px;
+            margin-top: 10px;
+            font-weight: 500;
+            background-color: black;
+            color: white;
+        }
+
+        .btn12 {
+            margin-left: 30%;
+        }
+
+        .cancel-order-btn {
+            display: inline-block;
+            background: #c04470;
+            color: white;
+            padding: 9px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .cancel-order-btn:hover {
+            background: #a72e59;
+        }
+
+        .no-cancel {
+            color: #888;
+            font-size: 13px;
+        }
+
+        @media(max-width: 768px) {
+            .orders-card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 850px;
+            }
+
+            .page-title {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <span class="menu" id="manue1">
+        <i class="fa-solid fa-bars"></i>
+    </span>
+
+    <h1 id="h">Flower <span>.</span></h1>
+
+    <nav class="navbar" id="navbtn">
+        <a href="{% url 'home' %}" id="home1">Home</a>
+        <a href="{% url 'About' %}">About</a>
+        <a href="{% url 'products' %}" id="tap">Products</a>
+        <a href="{% url 'review' %}" id="review-button">Review</a>
+        <a href="{% url 'my_orders' %}" id="review-button">Orders</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a id="x" href="#">Exite
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+    </nav>
 
     <div class="icon">
-    <a href="{% url 'wishlist' %}"><i class="fa-solid fa-heart"></i></a>
-    <a href="#" class="cart-icon">
-    <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
-    <span class="count">{{ cart_quantity }}</span>
-    </a><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
+        <a href="{% url 'wishlist' %}">
+            <i class="fa-solid fa-heart"></i>
+        </a>
+
+        <a href="#" class="cart-icon">
+            <i id="cart-add" class="fa-solid fa-cart-shopping"></i>
+            <span class="count">{{ cart_quantity }}</span>
+        </a>
+
+        <a href="{% url 'profile' %}">
+            <i class="fa-solid fa-user"></i>
+        </a>
     </div>
-    
-    {% comment %} {% if user.is_authenticated %}
-      <button class="login" ><a href="{% url "logout_home" %}">Logout</a ></button id='login'>
-      {% else %}
-       <button class="login" id='btn_2'><a id='btn_3' href="{% url "logout_home" %}">login</a></button id='login'>
-    {% endif %}    {% endcomment %}
 
     {% if user.is_authenticated %}
-    <button class="login">
-        <a href="{% url 'logout_home' %}">Logout</a>
-    </button>
-{% else %}
-    <button class="login" id="btn_2">
-        <a id="btn_3" href="{% url 'home_login' %}">Login</a>
-    </button>
-{% endif %}
-       
-    </header>
+        <button class="login">
+            <a href="{% url 'logout_home' %}">Logout</a>
+        </button>
+    {% else %}
+        <button class="login" id="btn_2">
+            <a id="btn_3" href="{% url 'home_login' %}">Login</a>
+        </button>
+    {% endif %}
+</header>
 
 
 {% block content %}
 
-<style>
-
-.count{
-    margin-top: -3px;
-
-}
-body{
-    background:#fff7f9;
-}
-
-.orders-container{
-    max-width:1200px;
-    margin:40px auto;
-    padding:20px;
-}
-
-.page-title{
-    font-size:32px;
-    font-weight:700;
-    color:#333;
-    margin-bottom:25px;
-}
-
-.orders-card{
-    background:#fff;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-thead{
-    background:#ff4f81;
-    color:#fff;
-}
-
-thead th{
-    padding:18px;
-    text-align:center;
-    font-size:16px;
-}
-
-tbody td{
-    padding:18px;
-    text-align:center;
-    border-bottom:1px solid #eee;
-    font-size:15px;
-}
-
-tbody tr:hover{
-    background:#fff5f8;
-}
-
-.badge{
-    padding:8px 15px;
-    border-radius:30px;
-    color:#fff;
-    font-size:13px;
-    font-weight:600;
-}
-
-.pending{
-    background:#ff9800;
-}
-
-.shipped{
-    background:#2196f3;
-}
-
-.delivered{
-    background:#22c55e;
-}
-
-.payment{
-    color:#ff4f81;
-    font-weight:600;
-}
-.Processing{
-    background-color: #555;
-}
-
-.empty{
-    text-align:center;
-    padding:70px 20px;
-}
-
-.empty img{
-    width:180px;
-    margin-bottom:20px;
-}
-
-.empty h3{
-    color:#555;
-}
-
-.shop-btn{
-    display:inline-block;
-    margin-top:20px;
-    background:#ff4f81;
-    color:#fff;
-    text-decoration:none;
-    padding:14px 30px;
-    border-radius:50px;
-    transition:.3s;
-}
-
-.shop-btn:hover{
-    background:#ff2c69;
-}
-.Cancelled{
-    background-color: red;
-}
-
-@media(max-width:768px){
-
-.orders-card{
-    overflow-x:auto;
-}
-
-table{
-    min-width:700px;
-}
-
-.page-title{
-    text-align:center;
-}
-
-}
-
-   .cart_box{
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    border: 1px solid black;
-    border-radius: 7px;
-   }
-.btn{
-    height: 39px;
-    width: 125px;
-    border-radius: 20px;
-    font-size: 15px;
-    margin-top: 10px;
-    font-weight:500;
-    background-color: black;
-    color: white;
-}
-.btn12{
-  margin-left: 30%;
-}
-
-  
-
-</style>
-    <!-- side barsaction start -->
-
 <div class="side" id="sidebar">
 
-  <div class="slide1">
+    <div class="slide1">
 
         <h1>Your Flower Cart 🌸</h1>
-    <div class="van">
-          <img src="{% static 'img/van.png' %}" alt="">
+
+        <div class="van">
+            <img src="{% static 'img/van.png' %}" alt="">
+        </div>
+
+        {% if cart_items %}
+
+            {% for item in cart_items %}
+
+                <div class="cart_box">
+
+                    <h4>{{ item.Product.Flower }}</h4>
+
+                    <p>₹{{ item.Product.final_price }}</p>
+
+                    <a href="{% url 'minus_cart' item.id %}">-</a>
+
+                    <p>{{ item.quantity }}</p>
+
+                    <a href="{% url 'plus_cart' item.id %}">+</a>
+
+                </div>
+
+            {% endfor %}
+
+            <div class="total">
+                <h3>Total Bill</h3>
+                <h3 class="total3">₹{{ total }}</h3>
+            </div>
+
+            <a href="{% url 'Chek_out' %}" class="buy btn">Buy</a>
+
+        {% else %}
+
+            <h1>Your Cart is Empty</h1>
+
+            <a href="{% url 'products' %}" class="btn btn12">Shop Now</a>
+
+        {% endif %}
+
     </div>
-
-    
-
-    {% if cart_items %}
-
-    {% for item in cart_items %}
-
-    <div class="cart_box">
-
-        <h4>{{ item.Product.Flower }}</h4>
-
-        <p>₹{{ item.Product.final_price }}</p>
-
-        <a href="{% url 'minus_cart' item.id %}">-</a>
-
-        <p>{{ item.quantity }}</p>
-
-        <a href="{% url 'plus_cart' item.id %}">+</a>
-
-    </div>
-
-    {% endfor %}
-
-    <div class="total">
-        <h3>Total Bill</h3>
-        <h3 class="total3">₹{{ total }}</h3>
-    </div>
-
-    <a href="{% url 'Chek_out' %}" class="buy btn">Buy</a>
-
-{% else %}
-
-    <h1>Your Cart is Empty</h1>
-
-    <a href="{% url 'products' %}" class="btn btn12">Shop Now</a>
-
-{% endif %}
-
-    </div>  
-    
-
- </div>
-    
-    
-
-    
-    
-    <!-- side barsaction End -->
+</div>
 
 
 <br><br>
+
 <div class="orders-container">
 
     <h2 class="page-title">
@@ -292,68 +314,115 @@ table{
                     <th>Payment</th>
                     <th>Status</th>
                     <th>Order Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
-          <tbody>
-{% for order in orders %}
+            <tbody>
 
-    {% for item in order.items.all %}
-    <tr>
-        <td>#{{ order.id }}</td>
-        <td>{{ item.product.Flower }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>₹{{ item.price }}</td>
-        <td>{{ order.payment_method }}</td>
+                {% for order in orders %}
 
-        <td>
-            {% if order.status == "Pending" %}
-                <span class="badge pending">Pending</span>
-            {% elif order.status == "Shipped" %}
-                <span class="badge shipped">Shipped</span>
-            {% elif order.status == "Cancelled" %}
-                <span class="badge Cancelled">Cancelled</span>
-            {% elif order.status == "Processing" %}
-                <span class="badge Processing">Processing</span>
-            {% else %}
-                <span class="badge delivered">{{ order.status }}</span>
-            {% endif %}
-        </td>
+                    {% for item in order.items.all %}
 
-        <td>{{ order.created_at|date:"d M Y" }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="7">No products in this order.</td>
-    </tr>
-    {% endfor %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
 
-{% empty %}
-    <tr>
-        <td colspan="7">No Orders Found</td>
-    </tr>
-{% endfor %}
-</tbody>
+                        <td>{{ item.product.Flower }}</td>
 
+                        <td>{{ item.quantity }}</td>
+
+                        <td>₹{{ item.price }}</td>
+
+                        <td>{{ order.payment_method }}</td>
+
+                        <td>
+                            {% if order.status == "Pending" %}
+                                <span class="badge pending">Pending</span>
+
+                            {% elif order.status == "Shipped" %}
+                                <span class="badge shipped">Shipped</span>
+
+                            {% elif order.status == "Cancelled" %}
+                                <span class="badge Cancelled">Cancelled</span>
+
+                            {% elif order.status == "Processing" %}
+                                <span class="badge Processing">Processing</span>
+
+                            {% else %}
+                                <span class="badge delivered">{{ order.status }}</span>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ order.created_at|date:"d M Y" }}</td>
+
+                        <td>
+                            {% with cancel=order.cancellation_requests.last %}
+
+                                {% if order.status == "Pending" or order.status == "Processing" %}
+
+                                    {% if cancel %}
+                                        {% if cancel.status == "Pending" %}
+                                            <span class="no-cancel">Request Pending</span>
+
+                                        {% elif cancel.status == "Approved" %}
+                                            <span class="no-cancel">Cancellation Approved</span>
+
+                                        {% else %}
+                                            <a href="{% url 'cancellation_request' order.id %}"
+                                               class="cancel-order-btn">
+                                                Cancel Order
+                                            </a>
+                                        {% endif %}
+
+                                    {% else %}
+                                        <a href="{% url 'cancellation_request' order.id %}"
+                                           class="cancel-order-btn">
+                                            Cancel Order
+                                        </a>
+                                    {% endif %}
+
+                                {% else %}
+                                    <span class="no-cancel">Not Available</span>
+                                {% endif %}
+
+                            {% endwith %}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8">No products in this order.</td>
+                    </tr>
+
+                    {% endfor %}
+
+                {% empty %}
+
+                    <tr>
+                        <td colspan="8">No Orders Found</td>
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
 
         </table>
 
         {% else %}
 
-        <div class="empty">
+            <div class="empty">
 
-            {% comment %} <img src="{% static 'image/empty-order.png' %}" alt="No Orders"> {% endcomment %}
-            {% comment %} <p class="empty-message">You haven't placed any orders yet.</p> {% endcomment %}
+                <h3>No Orders Found</h3>
 
-            <h3>No Orders Found</h3>
+                <p>You haven't placed any orders yet.</p>
 
-            <p>You haven't placed any orders yet.</p>
+                <a href="{% url 'products' %}" class="shop-btn">
+                    Continue Shopping
+                </a>
 
-            <a href="{% url 'products' %}" class="shop-btn">
-                Continue Shopping
-            </a>
-
-        </div>
+            </div>
 
         {% endif %}
 
@@ -362,37 +431,46 @@ table{
 </div>
 
 {% endblock %}
+
+
 <footer>
-      <h1>Thank <span>You.</span></h1>
-      <div class="table">
+    <h1>Thank <span>You.</span></h1>
+
+    <div class="table">
+
         <ul>
-          <li>Quick link</li>
-          <li>About</li>
-          <li>Products</li>
-          <li>Rivew</li>
-          <li>Contact</li>
+            <li>Quick link</li>
+            <li>About</li>
+            <li>Products</li>
+            <li>Rivew</li>
+            <li>Contact</li>
         </ul>
+
         <ul>
-          <li>Extra links</li>
-          <li>My Order</li>
-          <li>My Favorite</li>
+            <li>Extra links</li>
+            <li>My Order</li>
+            <li>My Favorite</li>
         </ul>
+
         <ul>
-          <li>Locations</li>
-          <li>India</li>
-          <li>USA</li>
-          <li>Japan</li>
-          <li>France</li>
+            <li>Locations</li>
+            <li>India</li>
+            <li>USA</li>
+            <li>Japan</li>
+            <li>France</li>
         </ul>
+
         <ul>
-          <li>Contact Info</li>
-          <li>8968279544</li>
-          <li>anmolanmol@176gmail.com</li>
-          <li>India Amritsar Jandiala Guru</li>
+            <li>Contact Info</li>
+            <li>8968279544</li>
+            <li>anmolanmol@176gmail.com</li>
+            <li>India Amritsar Jandiala Guru</li>
         </ul>
-      </div>
-    </footer>
-    
+
+    </div>
+</footer>
+
+<script src="{% static 'app.js' %}"></script>
+
 </body>
-<script src="{% static "app.js" %}"></script>
 </html>

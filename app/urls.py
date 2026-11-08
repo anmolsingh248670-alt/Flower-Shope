@@ -38,6 +38,8 @@ urlpatterns = [
     path('Chek_out/', views.Chek_out, name='Chek_out'),
     path('Place_Order/', views.Place_Order, name='Place_Order'),
     path('my-orders/', views.my_orders, name='my_orders'),
+    path('cancel-order/<int:order_id>/',views.cancellation_request,name='cancellation_request'
+),
     path(
         'razorpay-payment/',
         views.razorpay_payment,

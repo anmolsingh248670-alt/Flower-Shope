@@ -1,0 +1,240 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cancel Order | Flower Shop</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff5f7;
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(150, 50, 80, 0.10);
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            color: #c04470;
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .order-box {
+            background: #fff3f6;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #f5d4df;
+        }
+
+        .order-box h3 {
+            color: #b83d68;
+            margin-bottom: 12px;
+        }
+
+        .order-box p {
+            font-size: 14px;
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 9px;
+            font-size: 14px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #e5c5d0;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        select:focus, textarea:focus {
+            border-color: #c04470;
+            box-shadow: 0 0 0 3px rgba(192, 68, 112, 0.10);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 9px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cancel-btn {
+            background: #c04470;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background: #a72e59;
+        }
+
+        .back-btn {
+            background: #f1eeee;
+            color: #444;
+        }
+
+        .back-btn:hover {
+            background: #e5dddd;
+        }
+
+        .notice {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media(max-width: 480px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .container {
+                padding: 20px 16px;
+                border-radius: 13px;
+            }
+
+            .heading h1 {
+                font-size: 23px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="heading">
+        <h1>🌸 Cancel Your Order</h1>
+        <p>We're sorry to hear that you want to cancel your order.</p>
+    </div>
+
+    <div class="order-box">
+        <h3>Order Information</h3>
+
+        <p><strong>Order ID:</strong> #{{ order.id }}</p>
+
+        <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+
+        <p><strong>Payment:</strong> {{ order.payment_method }}</p>
+
+        <p><strong>Order Status:</strong> {{ order.status }}</p>
+
+        <p><strong>Order Date:</strong> {{ order.created_at|date:"d M Y" }}</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="reason">Why do you want to cancel?</label>
+
+            <select name="reason" id="reason" required>
+                <option value="">Select cancellation reason</option>
+                <option value="Changed Mind">Changed My Mind</option>
+                <option value="Wrong Product">Ordered Wrong Product</option>
+                <option value="Wrong Address">Wrong Delivery Address</option>
+                <option value="Delivery Delay">Delivery Taking Too Long</option>
+                <option value="Other">Other Reason</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Additional Message (Optional)</label>
+
+            <textarea
+                name="message"
+                id="message"
+                placeholder="Tell us more about your cancellation..."
+            ></textarea>
+        </div>
+
+        <div class="buttons">
+
+            <a href="{% url 'my_orders' %}" class="btn back-btn">
+                Go Back
+            </a>
+
+            <button type="submit" class="btn cancel-btn">
+                Submit Cancellation Request
+            </button>
+
+        </div>
+    </form>
+
+    <p class="notice">
+        Your order will not be cancelled immediately.
+        Your request will be reviewed by our team.
+    </p>
+
+</div>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from .models import add_product, Cart, Adders, Review, OrderItem, Order, Contact
+from .models import add_product, Cart, Adders, Review, OrderItem, Order, Contact,CancellationRequest
 from .forms import add_projuct_Forms
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -660,6 +660,130 @@ def my_orders(request):
         print("MY ORDERS ERROR:", repr(e), flush=True)
         traceback.print_exc()
         raise
+    
+    
+    
+@login_required(login_url='home_login')
+def cancellation_request(request, order_id):
+
+    # Check that this order belongs to the logged-in user
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user
+    )
+
+    # Do not accept requests for already completed/cancelled orders
+    if order.status in ["Delivered", "Cancelled"]:
+        messages.error(
+            request,
+            "This order cannot be cancelled."
+        )
+        return redirect("my_orders")
+
+    # Check existing pending request
+    existing_request = CancellationRequest.objects.filter(
+        order=order,
+        user=request.user,
+        status="Pending"
+    ).first()
+
+    if existing_request:
+        messages.warning(
+            request,
+            "You already have a pending cancellation request."
+        )
+        return redirect("my_orders")
+
+    if request.method == "POST":
+
+        reason = request.POST.get("reason")
+        message = request.POST.get("message", "").strip()
+
+        # Validate reason
+        valid_reasons = dict(CancellationRequest.REASONS)
+
+        if reason not in valid_reasons:
+            messages.error(request, "Please select a valid reason.")
+            return render(
+                request,
+                "cancellation_request.html",
+                {"order": order}
+            )
+
+        # Save cancellation request
+        cancel_request = CancellationRequest.objects.create(
+            order=order,
+            user=request.user,
+            reason=reason,
+            message=message
+        )
+
+        # Send emails
+        try:
+            subject = f"Cancellation Request - Order #{order.id}"
+
+            # Email to customer
+            send_mail(
+                subject="Cancellation Request Received",
+                message=f"""
+Hello {request.user.username},
+
+We have received your cancellation request.
+
+Order ID: #{order.id}
+Reason: {valid_reasons[reason]}
+Message: {message}
+
+Your request is currently Pending.
+
+Thank you,
+Flower Shop Team
+""",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[request.user.email],
+                fail_silently=False
+            )
+
+            # Email to website owner
+            send_mail(
+                subject=subject,
+                message=f"""
+New cancellation request received.
+
+Order ID: #{order.id}
+Customer: {request.user.username}
+Customer Email: {request.user.email}
+Reason: {valid_reasons[reason]}
+Message: {message}
+
+Please check Django Admin to approve or reject this request.
+""",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                fail_silently=False
+            )
+
+            messages.success(
+                request,
+                "Cancellation request submitted successfully!"
+            )
+
+        except Exception as e:
+            print("CANCELLATION EMAIL ERROR:", repr(e))
+            messages.warning(
+                request,
+                "Request saved, but email could not be sent."
+            )
+
+        return redirect("my_orders")
+
+    return render(
+        request,
+        "cancellation_request.html",
+        {"order": order}
+    )
+
 
 
 #  Oneline payment
