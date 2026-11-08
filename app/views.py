@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from .models import add_product, Cart, Adders, Review, OrderItem, Order, Contact,CancellationRequest
+from .models import add_product, Cart, Adders, Review, OrderItem, Order, Contact,CancellationRequest,Detales
 from .forms import add_projuct_Forms
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -190,18 +190,37 @@ def add_details(request):
 
     if request.method == "POST":
 
-        product = add_product.objects.get(
-            id=request.POST.get("detales")
-        )
+        product_id = request.POST.get("detales")
+
+        product = add_product.objects.filter(
+            id=product_id
+        ).first()
+
+        if not product:
+            products = add_product.objects.all()
+            return render(
+                request,
+                "add_details.html",
+                {
+                    "products": products,
+                    "error": "Please select a product."
+                }
+            )
+
+        defaults = {
+            "header": request.POST.get("header"),
+            "Color": request.POST.get("Color"),
+            "text": request.POST.get("text"),
+        }
+
+        date_value = request.POST.get("date")
+
+        if date_value:
+            defaults["date"] = date_value
 
         Detales.objects.update_or_create(
             detales=product,
-            defaults={
-                "header": request.POST.get("header"),
-                "Color": request.POST.get("Color"),
-                "text": request.POST.get("text"),
-                "date": request.POST.get("date"),
-            }
+            defaults=defaults
         )
 
         return redirect("admin_orders")
