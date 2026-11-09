@@ -104,93 +104,153 @@
 
   <br /><br /><br /><br />
 
-  <h1 class="hed"><span>Fresh</span> Flower 🌺</h1>
-  <br />
+  
+<h1 class="hed">
+    <span>Fresh</span> Flower 🌺
+</h1>
 
-  <div class="box3">
+<div class="box3">
+
+    <!-- LEFT CONTENT -->
     <div class="left">
-      <h3><i id="icon1" class="fa-solid fa-seedling"></i>Our permium Collection</h3>
-      <h1 class="name">{{ data1.Flower }}</h1>
-      <div class="lin"></div>
-      <h4>{{ data1.Flower_ditales.header }}.</h4>
-      <br>
-      <div class="icon">
-        <div class="box7">
-          <h1 class="all_icon"><span class="icon2"><i id="icon2" class="fa-solid fa-leaf"></i></span></h1>
-          <div class="text1">
-            Fresh & Handpicked
-            <p>Carefully Selected for the best quality.</p>
-          </div>
+
+        <h3>
+            <i class="fa-solid fa-seedling"></i>
+            Our Premium Collection
+        </h3>
+
+        <h1 class="name">{{ data1.Flower }}</h1>
+
+        <div class="lin"></div>
+
+        <h4>{{ data1.Flower_ditales.header }}.</h4>
+
+        <div class="icon">
+
+            <div class="box7">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+
+                <div class="text1">
+                    Fresh & Handpicked
+                    <p>Carefully selected for the best quality.</p>
+                </div>
+            </div>
+
+            <div class="box7">
+                <div class="feature-icon">
+                    <i class="fa-regular fa-heart"></i>
+                </div>
+
+                <div class="text1">
+                    Elegant & Unique
+                    <p>Beautiful blooms that stand out.</p>
+                </div>
+            </div>
+
+            <div class="box7">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+
+                <div class="text1">
+                    Perfect for Any Occasion
+                    <p>Ideal for gifts, decor and celebrations.</p>
+                </div>
+            </div>
+
         </div>
 
-        <br>
-
-        <div class="box7">
-          <h1 class="heart"><span class="icon3"><i id="icon2" class="fa-regular fa-heart"></i></span></h1>
-          <div class="text1" id="text1">
-            Elegant & Unique
-            <p>Deep purpley blooms that stand out.</p>
-          </div>
-        </div>
-        <br>
-        <nav></nav>
-        <div class="box7">
-          <h1 class="heart"> <span class="icon3"><i class="fa-solid fa-gift"></i></span> </h1>
-          <div class="text1" id="text1">
-            Perfect for Any Occasion
-            <p>ldeal for gift,decor,and celebrations.</p>
-          </div>
-        </div>
-
-      </div>
     </div>
 
+
+    <!-- CENTER FLOWER IMAGE -->
     <div class="center">
-      <img class="my1" src="{{ data1.imge.url }}" alt="" />
+
+        <img
+            class="my1"
+            src="{{ data1.imge.url }}"
+            alt="{{ data1.Flower }}"
+        >
+
     </div>
 
+
+    <!-- RIGHT PRODUCT DETAILS -->
     <div class="right">
-      <div class="icon_right">
-        <h4 class="detlase"><i id="i" class="bi bi-flower3"></i>Product Details</h4>
-      </div>
-      <div class="icon_right1">
-        <div class="gap"><i id="i1" class="fa-solid fa-fan"></i> <span id="name1">Name</span>
-          <div class="name3">{{ data1.Flower }}</div>
-        </div>
-        <div class="lin2"></div>
-      </div><br>
-      <div class="icon_right1">
-        <div class="gap"><i class="fa-solid fa-palette"></i> <span id="name1">Color</span>
-          <div class="name3">{{data1.Flower_ditales.Color}}</div>
-        </div>
-        <div class="lin2"></div>
-      </div><br>
-      <div class="icon_right1">
-        <div class="gap"><i class="fa-brands fa-pagelines"></i> <span id="name1">Type</span>
-          <div class="name3">Fresh Flower</div>
-        </div>
-        <div class="lin2"></div>
-      </div><br>
-      <div class="icon_right1">
-        <div class="gap"><i class="fa-regular fa-calendar-days"></i> <span id="name1">Longevity</span>
-          <div class="name3">5 - 7 Day</div>
-        </div>
-        <div class="lin2"></div>
-      </div><br>
-      <div class="icon_right1">
-        <div class="gap"><i class="fa-solid fa-droplet"></i> <span id="name1">Care</span>
-          <div class="name3">Keep in clean water and away from sunlight</div>
-        </div>
-        <!-- <div class="lin2"></div> -->
-      </div>
+
+        <h4 class="detlase">
+            <i class="bi bi-flower3"></i>
+            Product Details
+        </h4>
+
+        <div class="details-list">
+
+            <div class="icon_right1">
+
+                <div class="gap">
+                    <i class="fa-solid fa-fan"></i>
+                    <span class="detail-label">Name</span>
+                    <div class="name3">{{ data1.Flower }}</div>
+                </div>
+
+            </div>
 
 
+            <div class="icon_right1">
+
+                <div class="gap">
+                    <i class="fa-solid fa-palette"></i>
+                    <span class="detail-label">Color</span>
+                    <div class="name3">
+                        {{ data1.Flower_ditales.Color }}
+                    </div>
+                </div>
+
+            </div>
 
 
+            <div class="icon_right1">
+
+                <div class="gap">
+                    <i class="fa-brands fa-pagelines"></i>
+                    <span class="detail-label">Type</span>
+                    <div class="name3">Fresh Flower</div>
+                </div>
+
+            </div>
+
+
+            <div class="icon_right1">
+
+                <div class="gap">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span class="detail-label">Longevity</span>
+                    <div class="name3">5 - 7 Days</div>
+                </div>
+
+            </div>
+
+
+            <div class="icon_right1">
+
+                <div class="gap">
+                    <i class="fa-solid fa-droplet"></i>
+                    <span class="detail-label">Care</span>
+                    <div class="name3">
+                        Keep in clean water and away from direct sunlight.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-  </div>
+</div>
+
   <script src="{% static 'app.js' %}"></script>
 </body>
 
