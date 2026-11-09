@@ -16,8 +16,152 @@
   <link rel="stylesheet" href="{% static 'style.css' %}" />
   <link rel="stylesheet" href="{% static 'style4.css' %}" />
 </head>
+<style>
+  
+/* =====================================
+   HEADER ICONS - PROFESSIONAL DESIGN
+===================================== */
 
+header .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+/* Icon links */
+
+header .icon a {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    text-decoration: none;
+    color: #444;
+
+    background: #fff0f5;
+    border: 1px solid #f5d6e2;
+    border-radius: 50%;
+
+    transition: all 0.3s ease;
+}
+
+/* Heart, Cart and User */
+
+header .icon a i {
+    font-size: 18px;
+    color: #d63384;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+
+header .icon a:hover {
+    background: #e84393;
+    border-color: #e84393;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(232, 67, 147, 0.2);
+}
+
+header .icon a:hover i {
+    color: white;
+}
+
+/* Cart Position */
+
+header .icon .cart-icon {
+    position: relative;
+}
+
+/* Cart Quantity Badge */
+
+header .icon .count {
+    position: absolute;
+
+    top: -7px;
+    right: -7px;
+
+    min-width: 19px;
+    height: 19px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e84393;
+    color: white;
+
+    border: 2px solid white;
+    border-radius: 50px;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* =====================================
+   MOBILE RESPONSIVE
+===================================== */
+
+@media (max-width: 600px) {
+
+    header .icon {
+        gap: 9px;
+        margin-left: auto;
+    }
+
+    header .icon a {
+        width: 37px;
+        height: 37px;
+    }
+
+    header .icon a i {
+        font-size: 16px;
+    }
+
+    header .icon .count {
+        min-width: 17px;
+        height: 17px;
+        font-size: 9px;
+        top: -6px;
+        right: -6px;
+    }
+}
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media (max-width: 380px) {
+
+    header .icon {
+        gap: 6px;
+    }
+
+    header .icon a {
+        width: 33px;
+        height: 33px;
+    }
+
+    header .icon a i {
+        font-size: 14px;
+    }
+
+}
+
+</style>
 <body>
+
+  
  <header>
      <span  class="menu" id="manue1" ><i  class="fa-solid fa-bars"></i></span>
       <h1 id="h" >Flower <span>.</span></h1>
