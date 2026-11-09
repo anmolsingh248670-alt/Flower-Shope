@@ -181,7 +181,27 @@ def Flower_detales(request,my_id):
 
     data1 = get_object_or_404(add_product,pk=my_id)
     
-    return render(request,'Dettles.html',{'data1':data1})
+    data = add_product.objects.all()
+    
+    cart_items = Cart.objects.none()
+    cart_quantity = 0
+    total = 0
+    if request.user.is_authenticated:
+            cart_items = Cart.objects.filter(user=request.user)
+            for item in cart_items:
+                cart_quantity += item.quantity
+                total += item.quantity * item.Product.final_price
+    context = {
+            'data1':data1,
+            'data': data,
+            'cart_items': cart_items,
+            'total': total,
+            'cart_quantity': cart_quantity,
+        }
+    
+    
+    
+    return render(request,'Dettles.html',context)
 # home account page
 from django.contrib.admin.views.decorators import staff_member_required
 
