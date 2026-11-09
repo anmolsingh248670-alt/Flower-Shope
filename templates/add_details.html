@@ -1,37 +1,106 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static "add_details.css" %}">
+
+    <title>Add Product Details</title>
+
+    <link rel="stylesheet" href="{% static 'add_details.css' %}">
 </head>
+
 <body>
-    <form method="POST">
-    {% csrf_token %}
 
-    <label>Product</label>
-    <select name="detales">
-        {% for product in products %}
-            <option value="{{ product.id }}">{{ product.Flower }}</option>
-        {% endfor %}
-    </select>
+    <div class="page-container">
 
-    <label>Header</label>
-    <input type="text" name="header">
+        <div class="form-box">
 
-    <label>Color</label>
-    <input type="text" name="Color">
+            <div class="form-header">
+                <div class="icon-box">🌸</div>
 
-    <label>Description</label>
-    <textarea name="text"></textarea>
+                <h2>Add Product Details</h2>
 
-    <label>Date</label>
-    <input type="date" name="date">
+                <p>Enter product information below</p>
+            </div>
 
-    <button type="submit">Save</button>
-</form>
-    
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="detales">Select Product</label>
+
+                    <select name="detales" id="detales" required>
+                        <option value="">Choose a product</option>
+
+                        {% for product in products %}
+                            <option value="{{ product.id }}">
+                                {{ product.Flower }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="header">Header</label>
+
+                    <input
+                        type="text"
+                        name="header"
+                        id="header"
+                        placeholder="Enter product header"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="Color">Color</label>
+
+                    <input
+                        type="text"
+                        name="Color"
+                        id="Color"
+                        placeholder="Enter product color"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="text">Description</label>
+
+                    <textarea
+                        name="text"
+                        id="text"
+                        placeholder="Write product description..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date</label>
+
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                    >
+                </div>
+
+                <button type="submit" class="save-btn">
+                    Save Product Details
+                    <span>→</span>
+                </button>
+
+            </form>
+
+            <div class="form-footer">
+                <p>Flower Shop Admin Panel 🌷</p>
+            </div>
+
+        </div>
+
+    </div>
+
 </body>
 </html>
