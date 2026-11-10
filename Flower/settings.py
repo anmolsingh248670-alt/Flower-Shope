@@ -102,6 +102,12 @@ WSGI_APPLICATION = 'Flower.wsgi.application'
 # }
 
 if os.environ.get('TIDB_HOST'):
+
+    TIDB_CA_PATH = os.environ.get(
+        'TIDB_CA_PATH',
+        '/etc/ssl/certs/ca-certificates.crt'
+    )
+
     DATABASES = {
         'default': {
             'ENGINE': 'django_tidb',
@@ -110,8 +116,17 @@ if os.environ.get('TIDB_HOST'):
             'PASSWORD': os.environ.get('TIDB_PASSWORD'),
             'HOST': os.environ.get('TIDB_HOST'),
             'PORT': os.environ.get('TIDB_PORT', '4000'),
+
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'ssl_mode': 'VERIFY_IDENTITY',
+                'ssl': {
+                    'ca': TIDB_CA_PATH,
+                },
+            },
         }
     }
+
 else:
     DATABASES = {
         'default': {
@@ -119,7 +134,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
