@@ -94,12 +94,31 @@ WSGI_APPLICATION = 'Flower.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+if os.environ.get('TIDB_HOST'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django_tidb',
+            'NAME': os.environ.get('TIDB_DB_NAME', 'flower_db'),
+            'USER': os.environ.get('TIDB_USER'),
+            'PASSWORD': os.environ.get('TIDB_PASSWORD'),
+            'HOST': os.environ.get('TIDB_HOST'),
+            'PORT': os.environ.get('TIDB_PORT', '4000'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
