@@ -1071,57 +1071,7 @@ def admin_orders(request):
     return render(request, "admin_orders.html", context)
 
 
-# admin cancelation 
-@staff_member_required
-def admin_cancelation(request):
-
-    search = request.GET.get("search", "").strip()
-
-    all_orders = Order.objects.all()
-
-    orders = all_orders.select_related(
-        "user", "address"
-    ).prefetch_related(
-        "items__product"
-    ).order_by("-created_at")
-
-    if search:
-        orders = orders.filter(
-            Q(user__username__icontains=search) |
-            Q(id__icontains=search)
-        ).distinct()
-
-    total_orders = all_orders.count()
-
-    pending_count = all_orders.filter(
-        status="Pending"
-    ).count()
-
-    delivered_count = all_orders.filter(
-        status="Delivered"
-    ).count()
-
-    total_revenue = all_orders.exclude(
-        status="Cancelled"
-    ).aggregate(
-        total=Sum("total_price")
-    )["total"] or 0
-
-    cancellation_requests = CancellationRequest.objects.select_related(
-        "order", "user"
-    ).order_by("-requested_at")
-
-    context = {
-        "orders": orders,
-        "search": search,
-        "total_orders": total_orders,
-        "pending_count": pending_count,
-        "delivered_count": delivered_count,
-        "total_revenue": total_revenue,
-        "cancellation_requests": cancellation_requests,
-    }
-
-    return render(request, "admin_canclation.html", context)
+# 
 
 
 @staff_member_required
