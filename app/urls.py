@@ -66,6 +66,7 @@ urlpatterns = [
 
     # Admin Order Management
     path('admin_orders/', views.admin_orders, name='admin_orders'),
+    path('admin_cancelation',views.admin_cancelation, name="admin_cancelation"),
     path(
         'update-order/<int:id>/',
         views.update_order,

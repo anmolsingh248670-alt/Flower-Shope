@@ -1,0 +1,284 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Admin | Order Management</title>
+    <link rel="stylesheet" href="{% static 'admin_orders.css' %}">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>🌸 Flower Admin</h2>
+
+    <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+    <a class="active" href="{% url 'admin_orders' %}">Orders</a>
+    <a href="{% url 'admin_show' %}">Products</a>
+    <a href="{% url 'add_detales' %}">Add Products Details</a>
+    <a href="{% url 'admin_cancelation' %}">Cancelation Request</a>
+
+    <div class="sidebar-bottom">
+        <span>Flower Shop Admin Panel</span>
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="top">
+        <div>
+            <p class="small-heading">FLOWER SHOP / ADMIN</p>
+            <h1>Order Management</h1>
+            <p class="subtitle">Manage customer orders and cancellation requests.</p>
+        </div>
+
+        <form method="GET" class="search-form">
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search Order ID or Username">
+            <button type="submit">Search</button>
+            {% if search %}
+                <a class="clear-btn" href="{% url 'admin_orders' %}">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-icon purple">📦</div>
+            <div>
+                <p>Total Orders</p>
+                <h2>{{ total_orders }}</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon orange">⏳</div>
+            <div>
+                <p>Pending</p>
+                <h2>{{ pending_count }}</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon green">✓</div>
+            <div>
+                <p>Delivered</p>
+                <h2>{{ delivered_count }}</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon blue">₹</div>
+            <div>
+                <p>Revenue</p>
+                <h2>₹{{ total_revenue }}</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <section class="panel">
+
+        <div class="section-heading">
+            <div>
+                <h2>All Orders</h2>
+                <p>View and update customer orders</p>
+            </div>
+            <span class="count-label">{{ orders|length }} Orders</span>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                        <th>Delivery</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+
+                        <td>
+                            {% with item=order.items.all|first %}
+                                {% if item and item.product.imge %}
+                                    <img src="{{ item.product.imge.url }}" class="thumb" alt="Product">
+                                {% else %}
+                                    <div class="no-image">🌸</div>
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+
+                        <td><strong>#{{ order.id }}</strong></td>
+
+                        <td>{{ order.user.username }}</td>
+
+                        <td>
+                            {% if order.address %}
+                                {{ order.address.full_name }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+
+                        <td class="product-name">
+                            {% for item in order.items.all %}
+                                {{ item.product.Flower }}{% if not forloop.last %}<br>{% endif %}
+                            {% empty %}
+                                —
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% for item in order.items.all %}
+                                {{ item.quantity }}{% if not forloop.last %}<br>{% endif %}
+                            {% endfor %}
+                        </td>
+
+                        <td><strong>₹{{ order.total_price }}</strong></td>
+
+                        <td>{{ order.payment_method }}</td>
+
+                        <td>{{ order.delivery_date|date:"d M Y" }}</td>
+
+                        <td>
+                            <span class="status {{ order.status|lower }}">
+                                {{ order.status }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <form method="POST" action="{% url 'update_order' order.id %}" class="status-form">
+                                {% csrf_token %}
+
+                                <select name="status">
+                                    <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>Pending</option>
+                                    <option value="Processing" {% if order.status == "Processing" %}selected{% endif %}>Processing</option>
+                                    <option value="Shipped" {% if order.status == "Shipped" %}selected{% endif %}>Shipped</option>
+                                    <option value="Delivered" {% if order.status == "Delivered" %}selected{% endif %}>Delivered</option>
+                                    <option value="Cancelled" {% if order.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                                </select>
+
+                                <button type="submit" class="save-btn">Save</button>
+                            </form>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="11" class="empty-row">
+                            No orders found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+    <section class="panel cancellation-panel">
+
+        <div class="section-heading">
+            <div>
+                <h2>Cancellation Requests</h2>
+                <p>Review customer requests to cancel orders</p>
+            </div>
+            <span class="count-label">{{ cancellation_requests|length }} Requests</span>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Reason</th>
+                        <th>Message</th>
+                        <th>Requested</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for cancel in cancellation_requests %}
+                    <tr>
+                        <td>#{{ cancel.id }}</td>
+                        <td>#{{ cancel.order.id }}</td>
+                        <td>{{ cancel.user.username }}</td>
+                        <td>{{ cancel.get_reason_display }}</td>
+                        <td class="message-cell">
+                            {{ cancel.message|default:"No message" }}
+                        </td>
+                        <td>{{ cancel.requested_at|date:"d M Y" }}</td>
+
+                        <td>
+                            <span class="status {{ cancel.status|lower }}">
+                                {{ cancel.status }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if cancel.status == "Pending" %}
+                            <div class="request-actions">
+
+                                <form method="POST" action="{% url 'update_cancellation_request' cancel.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="Approved">
+                                    <button type="submit" class="approve-btn">Approve</button>
+                                </form>
+
+                                <form method="POST" action="{% url 'update_cancellation_request' cancel.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="Rejected">
+                                    <button type="submit" class="reject-btn">Reject</button>
+                                </form>
+
+                            </div>
+                            {% else %}
+                                <span class="no-action">Completed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="empty-row">
+                            No cancellation requests found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+    <footer>
+        © 2026 Flower Shop Admin Panel
+    </footer>
+
+</div>
+
+</body>
+</html>
