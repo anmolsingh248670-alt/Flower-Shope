@@ -87,5 +87,6 @@ urlpatterns = [
         name='toggle_wishlist'
     ),
     path('whshilst/', views.wishlist, name='wishlist'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
 
 ]

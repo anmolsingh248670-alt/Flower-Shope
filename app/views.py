@@ -11,6 +11,9 @@ from django.template.loader import render_to_string
 import random
 from django.db.models import Q, Sum
 from datetime import date, timedelta
+from django.db.models import Sum, Count
+from django.db.models.functions import TruncMonth
+from django.utils import timezone
 # Create your views here.
 def home(request):
 
@@ -1221,3 +1224,38 @@ def wishlist(request):
         'cart_quantity': cart_quantity,
     }
     return render(request, "wishlist.html", context) 
+# admin dashboard
+
+def admin_dashboard(request):
+
+    year = timezone.localdate().year
+
+    orders = Order.objects.filter(
+        created_at__year=year
+    ).exclude(status="Cancelled")
+
+    monthly = orders.annotate(
+        month=TruncMonth('created_at')
+    ).values('month').annotate(
+        sales=Sum('total_price'),
+        total_orders=Count('id')
+    ).order_by('month')
+
+    sales_data = [0] * 12
+    orders_data = [0] * 12
+
+    for item in monthly:
+        month_number = item['month'].month
+
+        sales_data[month_number - 1] = item['sales']
+        orders_data[month_number - 1] = item['total_orders']
+
+    context = {
+        'year': year,
+        'sales_data': sales_data,
+        'orders_data': orders_data,
+        'total_sales': sum(sales_data),
+        'total_orders': sum(orders_data),
+    }
+
+    return render(request, 'admin_dashboard.html', context)
