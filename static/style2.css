@@ -223,3 +223,244 @@ nav h2{
         padding:12px 18px;
     }
 }
+
+/* =================================
+   PREMIUM MOBILE RESPONSIVE DESIGN
+================================= */
+
+@media screen and (max-width: 768px) {
+
+    body {
+        width: 100%;
+        overflow-x: hidden;
+        background: #f4f7fc;
+    }
+
+    /* HEADER */
+
+    header {
+        padding: 16px;
+        gap: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hed {
+        font-size: 26px;
+        font-weight: 800;
+    }
+
+    .btn1 {
+        padding: 10px 12px;
+        border-radius: 10px;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+    .btn1 a {
+        font-size: 12px;
+    }
+
+    .stn {
+        width: 23px;
+        height: 23px;
+        font-size: 18px;
+    }
+
+    /* MAIN CONTAINER */
+
+    .main {
+        width: calc(100% - 20px);
+        margin: 20px auto;
+        border-radius: 14px;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* TABLE HEADER */
+
+    .box {
+        min-width: 940px;
+    }
+
+    .box3 {
+        padding: 5px 12px;
+        gap: 10px;
+    }
+
+    .hed2 {
+        padding: 20px 12px;
+        font-size: 22px;
+        white-space: nowrap;
+    }
+
+    .btn4 {
+        width: auto;
+        padding: 9px 16px;
+        margin-right: 10px;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    nav {
+        min-width: 940px;
+
+        grid-template-columns:
+            55px
+            100px
+            190px
+            90px
+            90px
+            110px
+            90px
+            160px;
+
+        padding: 15px;
+        gap: 0;
+    }
+
+    nav h2 {
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    /* PRODUCT LIST */
+
+    .item {
+        min-width: 940px;
+    }
+
+    .box2 {
+        width: 100%;
+        min-width: 940px;
+
+        grid-template-columns:
+            55px
+            100px
+            190px
+            90px
+            90px
+            110px
+            90px
+            160px;
+
+        padding: 14px 15px;
+        gap: 0;
+    }
+
+    .box2 h3 {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+    }
+
+    .box2 img {
+        width: 55px;
+        height: 55px;
+        border-radius: 9px;
+    }
+
+    .box2 h4 {
+        font-size: 12px;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    /* ACTION BUTTONS */
+
+    .action {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        padding: 8px 11px;
+        font-size: 11px;
+        border-radius: 7px;
+        white-space: nowrap;
+    }
+
+    /* BACK TO TOP BUTTON */
+
+    .back-to-top {
+        position: fixed;
+        right: 17px;
+        bottom: 22px;
+
+        width: 48px;
+        height: 48px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+        border-radius: 50%;
+
+        background: linear-gradient(135deg, #ec4899, #db2777);
+        color: white;
+
+        font-size: 27px;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.35);
+
+        z-index: 9999;
+        transition: 0.3s;
+    }
+
+    .back-to-top:active {
+        transform: scale(0.90);
+    }
+
+}
+
+/* SMALL MOBILE PHONES */
+
+@media screen and (max-width: 380px) {
+
+    header {
+        padding: 13px 11px;
+    }
+
+    .hed {
+        font-size: 23px;
+    }
+
+    .btn1 {
+        padding: 9px 10px;
+    }
+
+    .btn1 a {
+        font-size: 11px;
+    }
+
+    .main {
+        width: calc(100% - 14px);
+    }
+
+    .hed2 {
+        font-size: 20px;
+    }
+
+    .btn4 {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .back-to-top {
+        width: 44px;
+        height: 44px;
+        right: 12px;
+        bottom: 17px;
+    }
+
+}
