@@ -1225,7 +1225,7 @@ def wishlist(request):
     }
     return render(request, "wishlist.html", context) 
 # admin dashboard
-
+@staff_member_required
 def admin_dashboard(request):
 
     year = timezone.localdate().year
