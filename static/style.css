@@ -1409,3 +1409,480 @@ a:focus-visible {
         animation-duration: 0.01ms !important;
     }
 }
+
+/* =====================================
+   RESPONSIVE CSS ONLY
+   KEEP EXISTING WEBSITE DESIGN
+===================================== */
+
+/* ---------- LAPTOP ---------- */
+
+@media (max-width: 1200px) {
+
+    header {
+        padding: 0 20px;
+        gap: 12px;
+    }
+
+    .navbar a {
+        margin-right: 5px;
+        font-size: 13px;
+    }
+
+    .main2 {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    .main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-left: 0;
+        padding: 15px 25px;
+        gap: 20px;
+    }
+
+    .box1 {
+        width: 100%;
+    }
+
+    .dives {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 15px;
+    }
+
+    .rowes {
+        flex: 1 1 220px;
+        width: auto;
+    }
+
+    .colmes1 {
+        flex-wrap: wrap;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 992px) {
+
+    header button.login {
+        position: static;
+        margin-left: 0;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .video1,
+    .contant {
+        width: 100%;
+        margin: 0;
+    }
+
+    .bgvideo {
+        width: 100%;
+        height: auto;
+    }
+
+    .contant h3 {
+        margin-top: 0;
+    }
+
+    .dives {
+        display: flex;
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    .rowes {
+        width: calc(50% - 15px);
+        flex: 1 1 220px;
+    }
+
+    .table {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .side {
+        width: min(390px, 100%);
+    }
+
+    .van {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .buy {
+        position: static;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .total {
+        position: static;
+        width: 100%;
+    }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 768px) {
+
+    /* Header */
+
+    header {
+        width: 100%;
+        height: 60px;
+        padding: 0 12px;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .menu {
+        display: block;
+        cursor: pointer;
+    }
+
+    #h {
+        font-size: 25px;
+    }
+
+    #navbtn {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Works when JavaScript adds active class */
+
+    #navbtn.active {
+        display: flex;
+    }
+
+    .navbar a {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin: 0;
+    }
+
+    #x {
+        display: block;
+    }
+
+    header .login {
+        display: none;
+    }
+
+    .icon {
+        gap: 12px;
+    }
+
+    .icon a {
+        font-size: 20px;
+    }
+
+    /* Home */
+
+    .mainpage {
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: 90px 20px 30px;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .textlines {
+        width: 100%;
+        max-width: 550px;
+        margin: 0;
+    }
+
+    .textlines h1 {
+        font-size: clamp(30px, 6vw, 45px);
+    }
+
+    .textlines span {
+        font-size: clamp(19px, 4vw, 30px);
+    }
+
+    .textlines p {
+        max-width: 100%;
+    }
+
+    /* About */
+
+    .main2 {
+        width: 100%;
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .video1 {
+        width: 100%;
+    }
+
+    .bgvideo {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+    }
+
+    .video1 h1 {
+        position: relative;
+        bottom: auto;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .contant {
+        width: 100%;
+        margin: 0;
+    }
+
+    .contant h3 {
+        margin-top: 0;
+    }
+
+    /* Services */
+
+    .dives {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        height: auto;
+        gap: 12px;
+    }
+
+    .rowes {
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        min-height: 90px;
+        padding: 10px;
+    }
+
+    .iconcs .rowes .imges1 a {
+        position: static;
+        font-size: 30px;
+    }
+
+    /* Products */
+
+    .main {
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 15px;
+    }
+
+    .box1 {
+        width: 100%;
+        min-width: 0;
+        height: auto;
+    }
+
+    .imges1 img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+    }
+
+    .prs {
+        margin-left: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* Cart */
+
+    .side {
+        width: 100%;
+        max-width: 390px;
+        height: 100vh;
+        height: 100dvh;
+        overflow-y: auto;
+    }
+
+    .van {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .van img {
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    .cart_box {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .buy {
+        position: static;
+        width: 100%;
+        margin: 15px auto;
+    }
+
+    .total {
+        position: static;
+        width: 100%;
+    }
+
+    /* Footer */
+
+    .table {
+        width: 100%;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+}
+
+/* ---------- SMALL MOBILE ---------- */
+
+@media (max-width: 480px) {
+
+    header {
+        padding: 0 8px;
+        gap: 7px;
+    }
+
+    #h {
+        font-size: 22px;
+    }
+
+    .icon {
+        gap: 9px;
+    }
+
+    .icon a {
+        font-size: 18px;
+    }
+
+    .mainpage {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .textlines {
+        width: 100%;
+    }
+
+    .textlines h1 {
+        font-size: 32px;
+    }
+
+    .textlines span {
+        font-size: 19px;
+    }
+
+    .textlines p {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .main2 {
+        padding: 0 10px;
+    }
+
+    .dives {
+        grid-template-columns: 1fr;
+    }
+
+    .rowes {
+        width: 100%;
+    }
+
+    .main {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .box1 {
+        padding: 7px;
+    }
+
+    .hed3 h2 {
+        font-size: 15px;
+    }
+
+    .prs {
+        font-size: 12px;
+        gap: 5px;
+    }
+
+    .table {
+        padding: 15px 10px;
+        gap: 20px 10px;
+    }
+
+}
+
+/* ---------- EXTRA SMALL MOBILE ---------- */
+
+@media (max-width: 360px) {
+
+    #h {
+        font-size: 19px;
+    }
+
+    .icon {
+        gap: 7px;
+    }
+
+    .icon a {
+        font-size: 16px;
+    }
+
+    .main {
+        grid-template-columns: 1fr;
+        padding: 15px 20px;
+    }
+
+    .box1 .imges1 img {
+        aspect-ratio: 1 / 1;
+    }
+
+    .table {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* ---------- ALL DEVICE OVERFLOW FIX ---------- */
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img,
+video {
+    max-width: 100%;
+}
+
