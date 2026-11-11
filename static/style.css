@@ -1105,47 +1105,9 @@ font-weight: 700;
         max-width: 100%;
     }
 
-    /* About */
+    
 
-    .main2 {
-        width: 100%;
-        margin: 25px auto;
-        padding: 0 15px;
-    }
-
-    .row {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .video1 {
-        width: 100%;
-    }
-
-    .bgvideo {
-        width: 100%;
-        height: auto;
-        max-width: 100%;
-    }
-
-    .video1 h1 {
-        position: relative;
-        bottom: auto;
-        margin-top: 10px;
-        width: 100%;
-    }
-
-    .contant {
-        width: 100%;
-        margin: 0;
-    }
-
-    .contant h3 {
-        margin-top: 0;
-    }
-
-    /* Services */
+    
 
     .dives {
         display: grid;
