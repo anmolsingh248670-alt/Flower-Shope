@@ -40,7 +40,7 @@ class Detales(models.Model):
         related_name='Flower_ditales'
     )
 
-    header = models.CharField(max_length=150)
+    header = models.CharField(max_length=550)
     Color = models.CharField(max_length=20)
     text = models.TextField()
 
