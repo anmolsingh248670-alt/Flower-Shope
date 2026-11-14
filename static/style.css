@@ -279,243 +279,57 @@ span{
 
 
 
+/* SIDE BAR STYLE */
+.side{
+height:500px;
+width:350px;
+margin-top: 60px;
 
-/* =================================
-   FLOWER CART SIDEBAR
-================================= */
+position:fixed;
+top:0;
+right:0;
+z-index: 100000000;
 
-.side {
-    position: fixed;
-    top: 0;
-    right: 0;
+/* hidden outside screen */
+transform:translateX(100%);
+transition:0.4s;
+width:390px;
+height:100vh;
+position:fixed;
+right:0;
+top:0;
 
-    width: 390px;
-    max-width: 100%;
-    height: 100vh;
-
-    background: linear-gradient(135deg, #DDEEDB, #FFE8CC);
-
-    z-index: 100000;
-
-    transform: translateX(100%);
-    transition: transform 0.4s ease;
-
-    box-shadow: -8px 0 20px rgba(0,0,0,0.15);
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    padding: 20px;
+background:linear-gradient(135deg,#DDEEDB,#FFE8CC);
+transform:translateX(100%);
+transition:0.4s;
+box-shadow:-8px 0 20px rgba(0,0,0,0.15);
 }
 
-.side.active {
-    transform: translateX(0);
+.side.active{
+transform:translateX(0);
 }
-
-.slide1 {
-    width: 100%;
-    min-height: 100%;
-    position: relative;
-    padding-bottom: 110px;
+.van{
+height: 35vh;
+width: 400px;
+/* background-image: url(img/van.png); */
+background-position: center;
+background-size: cover;
+object-fit: cover;
+margin-left: 40px;
 }
-
-.side .slide1 > h1 {
-    font-size: 29px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-    text-align: center;
-}
-
-.van {
-    width: 100%;
+.van img{
     height: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
 }
-
-.van img {
-    max-width: 100%;
-    width: 220px;
-    height: 160px;
-    object-fit: contain;
-}
-
-.cart-items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.cart_box {
-    background-color: white;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 8px;
-    width: 100%;
-
-    padding: 12px 10px;
-
-    border-radius: 7px;
-    margin-top: 5px;
-    border: 1px solid black;
-
-    overflow-wrap: anywhere;
-}
-
-.cart_box h4 {
-    font-size: 14px;
-    flex: 1;
-}
-
-.cart_box p {
-    font-size: 14px;
-    margin: 0;
-}
-
-.cart_box a {
-    text-decoration: none;
-    background: #e84393;
-    color: white;
-
-    padding: 5px 11px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-.total {
-    background-color: cadetblue;
-
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
-    width: 100%;
-    min-height: 95px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 8px;
-
-    padding: 12px;
-    border-radius: 7px;
-}
-
-#total {
-    text-align: center;
-    font-size: 17px;
-}
-
-.total3 {
-    margin: 0;
-    font-size: 19px;
-}
-
-.buy {
-    position: static;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 75px;
-    min-height: 40px;
-
-    padding: 8px;
-    border-radius: 30px;
-
-    font-weight: bold;
-    background-color: goldenrod;
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.empty-cart {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.empty-cart h2 {
-    font-size: 22px;
-}
-
-.empty-cart .btn12 {
-    margin: 20px auto;
-}
-
-#btn {
-    text-decoration: none;
-    color: white;
-    font-weight: 900;
-}
-
-/* TABLET */
-
-@media (max-width: 768px) {
-
-    .side {
-        width: 390px;
-        max-width: 90%;
-        padding: 15px;
-    }
-
-    .side .slide1 > h1 {
-        font-size: 25px;
-    }
-
-    .van {
-        height: 140px;
-    }
-
-    .van img {
-        width: 180px;
-        height: 135px;
-    }
+.side h1{
+font-size:29px;
+font-weight:600;
+margin-bottom:20px;
+border-bottom:2px solid #ddd;
+padding-bottom:10px;
+text-align: center;
 
 }
-
-/* MOBILE */
-
-@media (max-width: 480px) {
-
-    .side {
-        width: 100%;
-        max-width: 100%;
-        padding: 12px;
-    }
-
-    .side .slide1 > h1 {
-        font-size: 23px;
-    }
-
-    .cart_box {
-        gap: 6px;
-        padding: 10px 7px;
-    }
-
-    .cart_box h4,
-    .cart_box p {
-        font-size: 12px;
-    }
-
-    .cart_box a {
-        padding: 5px 9px;
-    }
-
-    .total {
-        padding: 10px 5px;
-    }
-
-}
-
+/*  end*/
 
 /* stant side bar in  */
 /* .cart-items{
