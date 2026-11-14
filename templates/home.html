@@ -132,31 +132,48 @@ body {
 
     
 
-    {% if cart_items %}
+    
+{% if cart_items %}
 
-      {% for item in cart_items %}
-      <div class="cart_box">
+    {% for item in cart_items %}
 
-      <h4>{{ item.Product.Flower }}</h4>
+    <div class="cart_box">
 
-       <p>₹ {{ item.Product.final_price }}</p>
-       
-       <a href="{% url 'minus_cart' item.id %}">-</a>
-       <p> {{ item.quantity }}</p>
-       <a href="{% url 'plus_cart' item.id %}">+</a>
-       
+        <h4>{{ item.Product.Flower }}</h4>
 
-       
-  
+        <p>₹ {{ item.Product.final_price }}</p>
+
+        <a href="{% url 'minus_cart' item.id %}">-</a>
+
+        <p>{{ item.quantity }}</p>
+
+        <a href="{% url 'plus_cart' item.id %}">+</a>
+
+    </div>
+
     {% endfor %}
-   
-      <div class="cart-items"></div>
-      </div>
-      <div class="total">
-        <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
-      </div>
-      <button class="buy" ><a href="{% url "Chek_out" %}">buy</a></button>
-       {% else %}
+
+    <div class="total">
+
+        <div>
+            <h3>Total Bill</h3>
+            <h3 class="total3">₹{{ total }}</h3>
+        </div>
+
+        <a class="buy" href="{% url 'Chek_out' %}">Buy</a>
+
+    </div>
+
+{% else %}
+
+    <h1>Your Cart is Empty</h1>
+
+    <button id="emty" class="btn btn12">
+        <a id="btn" href="{% url 'products' %}">Shop Now</a>
+    </button>
+
+{% endif %}
+
     <h1>you carte is Empty</h1>
     <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
 
