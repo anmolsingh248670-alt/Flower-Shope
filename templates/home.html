@@ -127,8 +127,6 @@ body {
     <div class="van">
           <img src="{% static 'img/van.png' %}" alt="">
     </div>
-
-
     {% if cart_items %}
       {% for item in cart_items %}
       <div class="cart_box">
@@ -139,11 +137,7 @@ body {
        <a href="{% url 'plus_cart' item.id %}">+</a>
        </div>
     {% endfor %}
-
-
-    
       <div class="cart-items"></div>
-      
       <div class="total">
         <h3 id="total">total bile<p id="sum_of"><h3 class="total3" align='center'>₹{{ total }}</h3></p></h3>
       </div>
