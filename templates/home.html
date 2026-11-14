@@ -119,76 +119,73 @@ body {
       </div>
     </section>
     <!-- Flower imges and text End -->
-    <!-- side barsaction start -->
+ 
+<!-- SIDEBAR START -->
 
 <div class="side" id="sidebar">
 
-  <div class="slide1">
+    <div class="slide1">
 
         <h1>Your Flower Cart 🌸</h1>
-    <div class="van">
-          <img src="{% static 'img/van.png' %}" alt="">
-    </div>
 
-    
-
-    
-{% if cart_items %}
-
-    {% for item in cart_items %}
-
-    <div class="cart_box">
-
-        <h4>{{ item.Product.Flower }}</h4>
-
-        <p>₹ {{ item.Product.final_price }}</p>
-
-        <a href="{% url 'minus_cart' item.id %}">-</a>
-
-        <p>{{ item.quantity }}</p>
-
-        <a href="{% url 'plus_cart' item.id %}">+</a>
-
-    </div>
-
-    {% endfor %}
-
-    <div class="total">
-
-        <div>
-            <h3>Total Bill</h3>
-            <h3 class="total3">₹{{ total }}</h3>
+        <div class="van">
+            <img src="{% static 'img/van.png' %}" alt="Flower delivery">
         </div>
 
-        <a class="buy" href="{% url 'Chek_out' %}">Buy</a>
+        {% if cart_items %}
+
+            <div class="cart-items">
+
+                {% for item in cart_items %}
+
+                    <div class="cart_box">
+
+                        <h4>{{ item.Product.Flower }}</h4>
+
+                        <p>₹ {{ item.Product.final_price }}</p>
+
+                        <a href="{% url 'minus_cart' item.id %}">-</a>
+
+                        <p>{{ item.quantity }}</p>
+
+                        <a href="{% url 'plus_cart' item.id %}">+</a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <div class="total">
+
+                <h3 id="total">Total Bill</h3>
+
+                <h3 class="total3">₹{{ total }}</h3>
+
+                <a class="buy" href="{% url 'Chek_out' %}">Buy</a>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-cart">
+
+                <h2>Your Cart is Empty</h2>
+
+                <button id="emty" class="btn btn12">
+                    <a id="btn" href="{% url 'products' %}">Shop Now</a>
+                </button>
+
+            </div>
+
+        {% endif %}
 
     </div>
 
-{% else %}
+</div>
 
-    <h1>Your Cart is Empty</h1>
+<!-- SIDEBAR END -->
 
-    <button id="emty" class="btn btn12">
-        <a id="btn" href="{% url 'products' %}">Shop Now</a>
-    </button>
-
-{% endif %}
-
-    <h1>you carte is Empty</h1>
-    <button id="emty" class="btn btn12"><a id="btn" href="{% url 'products' %}">Shop now</a></button>
-
-    {% endif %}
-
-    </div>  
-    
-
- </div>
-    
-    
-
-    
-    
-    <!-- side barsaction End -->
 
     <!-- video contant start -->
 
