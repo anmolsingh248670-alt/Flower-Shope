@@ -1,6 +1,7 @@
 
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
@@ -85,5 +86,43 @@ urlpatterns = [
     path('whshilst/', views.wishlist, name='wishlist'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin_customers/', views.admin_customers, name='admin_customers'),
+    
+        # Forgot Password / Reset Password
+
+    path(
+        'forgot-password/',
+        auth_views.PasswordResetView.as_view(
+            template_name='forgot_password.html',
+            email_template_name='password_reset_email.html',
+            subject_template_name='password_reset_subject.txt',
+            success_url='/password-reset-sent/'
+        ),
+        name='password_reset'
+    ),
+
+    path(
+        'password-reset-sent/',
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='password_reset_done.html'
+        ),
+        name='password_reset_done'
+    ),
+
+    path(
+        'reset/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name='password_reset_confirm.html',
+            success_url='/password-reset-complete/'
+        ),
+        name='password_reset_confirm'
+    ),
+
+    path(
+        'password-reset-complete/',
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name='password_reset_complete.html'
+        ),
+        name='password_reset_complete'
+    ),
 
 ]

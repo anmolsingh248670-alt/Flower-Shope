@@ -1285,3 +1285,5 @@ def admin_customers(request):
         'customers': customers,
         'search': search
     })
+# from django.contrib.auth import views as auth_views
+
