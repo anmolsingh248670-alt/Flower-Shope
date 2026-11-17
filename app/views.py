@@ -593,13 +593,9 @@ from django.template.loader import render_to_string
 
 
 @login_required(login_url='home_login')
-
 def Place_Order(request):
-
-    # Get previous orders
-    orders = Order.objects.filter(
-        user=request.user
-    ).order_by('-created_at').prefetch_related('items__product')
+    
+    orders = Order.objects.filter( user=request.user).order_by('-created_at').prefetch_related('items__product')
 
     # Get cart items
     data = list(Cart.objects.filter(user=request.user))
@@ -649,7 +645,7 @@ def Place_Order(request):
             price=item.Product.final_price
         )
 
-    # Send Two Separate Emails
+    # Send Confirmation Email
     try:
 
         html = render_to_string(
@@ -660,35 +656,23 @@ def Place_Order(request):
                 "address": address,
                 "delivery_date": delivery_date,
                 "total": total,
-                "orders": orders
+                "orders":orders
             },
         )
 
-        # FIRST EMAIL: Your Email
-        my_email = EmailMultiAlternatives(
-            subject="New Order Received",
-            body="A new customer has placed an order.",
-            from_email="anmolanmol248670@gmail.com",
-            to=[
-                "anmolanmol248670@gmail.com"
-            ],
-        )
-
-        my_email.attach_alternative(html, "text/html")
-        my_email.send()
-
-        # SECOND EMAIL: Customer Registered Email
-        customer_email = EmailMultiAlternatives(
+        email = EmailMultiAlternatives(
             subject="Order Confirmation",
             body="Your order has been confirmed.",
-            from_email="anmolanmol248670@gmail.com",
+            from_email="anmolsingh248670@gmail.com",
             to=[
-                request.user.email
+                request.user.email,
+                "anmolsingh248670@gmail.com",
             ],
         )
 
-        customer_email.attach_alternative(html, "text/html")
-        customer_email.send()
+        email.attach_alternative(html, "text/html")
+
+        email.send(fail_silently=True)
 
     except Exception as e:
         print("Email Error:", e)
@@ -709,114 +693,9 @@ def Place_Order(request):
             "address": address,
             "delivery_date": delivery_date,
             "total": total,
-            "orders": orders
+            "orders":orders
         },
     )
-
-
-# def Place_Order(request):
-    
-#     orders = Order.objects.filter( user=request.user).order_by('-created_at').prefetch_related('items__product')
-
-#     # Get cart items
-#     data = list(Cart.objects.filter(user=request.user))
-
-#     # Check empty cart
-#     if not data:
-#         return redirect('products')
-
-#     # Get delivery address
-#     address = Adders.objects.filter(user=request.user).first()
-
-#     if not address:
-#         return redirect('Chek_out')
-
-#     # Calculate delivery date
-#     today = date.today()
-#     delivery_date = today + timedelta(days=7)
-
-#     # Calculate total price
-#     total = 0
-
-#     for item in data:
-#         total += item.quantity * item.Product.final_price
-
-#     # Get payment method
-#     payment_method = request.session.get(
-#         "payment_method", "COD"
-#     )
-
-#     # Create Order
-#     order = Order.objects.create(
-#         user=request.user,
-#         address=address,
-#         total_price=total,
-#         payment_method=payment_method,
-#         delivery_date=delivery_date,
-#         status="Pending"
-#     )
-
-#     # Save Order Products
-#     for item in data:
-
-#         OrderItem.objects.create(
-#             order=order,
-#             product=item.Product,
-#             quantity=item.quantity,
-#             price=item.Product.final_price
-#         )
-
-#     # Send Confirmation Email
-#     try:
-
-#         html = render_to_string(
-#             "text.html",
-#             {
-#                 "order": order,
-#                 "data": data,
-#                 "address": address,
-#                 "delivery_date": delivery_date,
-#                 "total": total,
-#                 "orders":orders
-#             },
-#         )
-
-#         email = EmailMultiAlternatives(
-#             subject="Order Confirmation",
-#             body="Your order has been confirmed.",
-#             from_email="anmolsingh248670@gmail.com",
-#             to=[
-#                 request.user.email,
-#                 "anmolsingh248670@gmail.com",
-#             ],
-#         )
-
-#         email.attach_alternative(html, "text/html")
-
-#         email.send(fail_silently=True)
-
-#     except Exception as e:
-#         print("Email Error:", e)
-
-#     # Clear Cart
-#     Cart.objects.filter(user=request.user).delete()
-
-#     # Clear Payment Session
-#     request.session.pop("payment_method", None)
-
-#     # Show Success Page
-#     return render(
-#         request,
-#         "Place_order.html",
-#         {
-#             "order": order,
-#             "data": data,
-#             "address": address,
-#             "delivery_date": delivery_date,
-#             "total": total,
-#             "orders":orders
-#         },
-#     )
    # send Email user and me
     
 from django.contrib.auth.decorators import login_required
