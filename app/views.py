@@ -675,7 +675,8 @@ def Place_Order(request):
         )
 
         email.attach_alternative(html, "text/html")
-        email.send(fail_silently=True)
+        result = email.send(fail_silently=False)
+        print("EMAIL SEND RESULT:", result)
 
     except Exception as e:
         print("Email Error:", e)
