@@ -593,9 +593,12 @@ from django.template.loader import render_to_string
 
 
 @login_required(login_url='home_login')
+
 def Place_Order(request):
-    
-    orders = Order.objects.filter( user=request.user).order_by('-created_at').prefetch_related('items__product')
+
+    orders = Order.objects.filter(
+        user=request.user
+    ).order_by('-created_at').prefetch_related('items__product')
 
     # Get cart items
     data = list(Cart.objects.filter(user=request.user))
@@ -637,7 +640,6 @@ def Place_Order(request):
 
     # Save Order Products
     for item in data:
-
         OrderItem.objects.create(
             order=order,
             product=item.Product,
@@ -656,7 +658,7 @@ def Place_Order(request):
                 "address": address,
                 "delivery_date": delivery_date,
                 "total": total,
-                "orders":orders
+                "orders": orders
             },
         )
 
@@ -664,6 +666,8 @@ def Place_Order(request):
             subject="Order Confirmation",
             body="Your order has been confirmed.",
             from_email="anmolsingh248670@gmail.com",
+
+            # Send to customer AND you
             to=[
                 request.user.email,
                 "anmolsingh248670@gmail.com",
@@ -671,7 +675,6 @@ def Place_Order(request):
         )
 
         email.attach_alternative(html, "text/html")
-
         email.send(fail_silently=True)
 
     except Exception as e:
@@ -693,9 +696,114 @@ def Place_Order(request):
             "address": address,
             "delivery_date": delivery_date,
             "total": total,
-            "orders":orders
+            "orders": orders
         },
     )
+
+
+# def Place_Order(request):
+    
+#     orders = Order.objects.filter( user=request.user).order_by('-created_at').prefetch_related('items__product')
+
+#     # Get cart items
+#     data = list(Cart.objects.filter(user=request.user))
+
+#     # Check empty cart
+#     if not data:
+#         return redirect('products')
+
+#     # Get delivery address
+#     address = Adders.objects.filter(user=request.user).first()
+
+#     if not address:
+#         return redirect('Chek_out')
+
+#     # Calculate delivery date
+#     today = date.today()
+#     delivery_date = today + timedelta(days=7)
+
+#     # Calculate total price
+#     total = 0
+
+#     for item in data:
+#         total += item.quantity * item.Product.final_price
+
+#     # Get payment method
+#     payment_method = request.session.get(
+#         "payment_method", "COD"
+#     )
+
+#     # Create Order
+#     order = Order.objects.create(
+#         user=request.user,
+#         address=address,
+#         total_price=total,
+#         payment_method=payment_method,
+#         delivery_date=delivery_date,
+#         status="Pending"
+#     )
+
+#     # Save Order Products
+#     for item in data:
+
+#         OrderItem.objects.create(
+#             order=order,
+#             product=item.Product,
+#             quantity=item.quantity,
+#             price=item.Product.final_price
+#         )
+
+#     # Send Confirmation Email
+#     try:
+
+#         html = render_to_string(
+#             "text.html",
+#             {
+#                 "order": order,
+#                 "data": data,
+#                 "address": address,
+#                 "delivery_date": delivery_date,
+#                 "total": total,
+#                 "orders":orders
+#             },
+#         )
+
+#         email = EmailMultiAlternatives(
+#             subject="Order Confirmation",
+#             body="Your order has been confirmed.",
+#             from_email="anmolsingh248670@gmail.com",
+#             to=[
+#                 request.user.email,
+#                 "anmolsingh248670@gmail.com",
+#             ],
+#         )
+
+#         email.attach_alternative(html, "text/html")
+
+#         email.send(fail_silently=True)
+
+#     except Exception as e:
+#         print("Email Error:", e)
+
+#     # Clear Cart
+#     Cart.objects.filter(user=request.user).delete()
+
+#     # Clear Payment Session
+#     request.session.pop("payment_method", None)
+
+#     # Show Success Page
+#     return render(
+#         request,
+#         "Place_order.html",
+#         {
+#             "order": order,
+#             "data": data,
+#             "address": address,
+#             "delivery_date": delivery_date,
+#             "total": total,
+#             "orders":orders
+#         },
+#     )
    # send Email user and me
     
 from django.contrib.auth.decorators import login_required
