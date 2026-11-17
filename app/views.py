@@ -663,10 +663,10 @@ def Place_Order(request):
         email = EmailMultiAlternatives(
             subject="Order Confirmation",
             body="Your order has been confirmed.",
-            from_email="anmolanmol@gmail.com",
+            from_email="anmolsingh248670@gmail.com",
             to=[
                 request.user.email,
-                "anmolanmol@gmail.com",
+                "anmolsingh248670@gmail.com",
             ],
         )
 
