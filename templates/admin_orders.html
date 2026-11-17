@@ -18,8 +18,8 @@
     <a class="active" href="{% url 'admin_orders' %}">Orders</a>
     <a href="{% url 'admin_show' %}">Products</a>
     <a href="{% url 'add_detales' %}">Add Products Details</a>
-    <a href="#">Cancellation request</a>
-    <a href="#">Customers</a>
+    {% comment %} <a href="{% url 'cancellation_request' %}">Cancellation request</a> {% endcomment %}
+    <a href="{% url 'admin_customers' %}">Customers</a>
 
     <div class="sidebar-bottom">
         <span>Flower Shop Admin Panel</span>

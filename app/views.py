@@ -851,7 +851,9 @@ Please check Django Admin to approve or reject this request.
 
         return redirect("my_orders")
 
-    return render(request,"cancellation_request.html",{"order": order})
+    return render(request,"cancellation_request.html",
+{"order": order}
+    )
 
 
 
@@ -1258,3 +1260,28 @@ def admin_dashboard(request):
     }
 
     return render(request, 'admin_dashboard.html', context)
+
+
+
+
+from django.contrib.admin.views.decorators import staff_member_required
+
+@staff_member_required
+def admin_customers(request):
+
+    search = request.GET.get('search', '')
+
+    customers = User.objects.filter(
+        is_staff=False,
+        is_superuser=False
+    ).order_by('-date_joined')
+
+    if search:
+        customers = customers.filter(
+            email__icontains=search
+        )
+
+    return render(request, 'admin_customers.html', {
+        'customers': customers,
+        'search': search
+    })

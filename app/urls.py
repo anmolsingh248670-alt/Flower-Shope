@@ -84,5 +84,6 @@ urlpatterns = [
     ),
     path('whshilst/', views.wishlist, name='wishlist'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin_customers/', views.admin_customers, name='admin_customers'),
 
 ]
