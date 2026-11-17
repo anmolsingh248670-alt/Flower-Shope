@@ -596,6 +596,7 @@ from django.template.loader import render_to_string
 
 def Place_Order(request):
 
+    # Get previous orders
     orders = Order.objects.filter(
         user=request.user
     ).order_by('-created_at').prefetch_related('items__product')
@@ -640,6 +641,7 @@ def Place_Order(request):
 
     # Save Order Products
     for item in data:
+
         OrderItem.objects.create(
             order=order,
             product=item.Product,
@@ -647,7 +649,7 @@ def Place_Order(request):
             price=item.Product.final_price
         )
 
-    # Send Confirmation Email
+    # Send Two Separate Emails
     try:
 
         html = render_to_string(
@@ -662,21 +664,31 @@ def Place_Order(request):
             },
         )
 
-        email = EmailMultiAlternatives(
-            subject="Order Confirmation",
-            body="Your order has been confirmed.",
-            from_email="anmolsingh248670@gmail.com",
-
-            # Send to customer AND you
+        # FIRST EMAIL: Your Email
+        my_email = EmailMultiAlternatives(
+            subject="New Order Received",
+            body="A new customer has placed an order.",
+            from_email="anmolanmol248670@gmail.com",
             to=[
-                request.user.email,
-                "anmolsingh248670@gmail.com",
+                "anmolanmol248670@gmail.com"
             ],
         )
 
-        email.attach_alternative(html, "text/html")
-        result = email.send(fail_silently=False)
-        print("EMAIL SEND RESULT:", result)
+        my_email.attach_alternative(html, "text/html")
+        my_email.send()
+
+        # SECOND EMAIL: Customer Registered Email
+        customer_email = EmailMultiAlternatives(
+            subject="Order Confirmation",
+            body="Your order has been confirmed.",
+            from_email="anmolanmol248670@gmail.com",
+            to=[
+                request.user.email
+            ],
+        )
+
+        customer_email.attach_alternative(html, "text/html")
+        customer_email.send()
 
     except Exception as e:
         print("Email Error:", e)
