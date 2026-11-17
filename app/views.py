@@ -594,6 +594,8 @@ from django.template.loader import render_to_string
 
 @login_required(login_url='home_login')
 def Place_Order(request):
+    
+    orders = Order.objects.filter( user=request.user).order_by('-created_at').prefetch_related('items__product')
 
     # Get cart items
     data = list(Cart.objects.filter(user=request.user))
@@ -654,6 +656,7 @@ def Place_Order(request):
                 "address": address,
                 "delivery_date": delivery_date,
                 "total": total,
+                "orders":orders
             },
         )
 
@@ -690,6 +693,7 @@ def Place_Order(request):
             "address": address,
             "delivery_date": delivery_date,
             "total": total,
+            "orders":orders
         },
     )
    # send Email user and me
@@ -705,9 +709,7 @@ import traceback
 @login_required(login_url='home_login')
 def my_orders(request):
     try:
-        orders = Order.objects.filter(
-            user=request.user
-        ).order_by('-created_at').prefetch_related('items__product')
+        orders = Order.objects.filter( user=request.user).order_by('-created_at').prefetch_related('items__product')
 
         cart_items = Cart.objects.filter(
             user=request.user
