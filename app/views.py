@@ -851,11 +851,7 @@ Please check Django Admin to approve or reject this request.
 
         return redirect("my_orders")
 
-    return render(
-        request,
-        "cancellation_request.html",
-        {"order": order}
-    )
+    return render(request,"cancellation_request.html",{"order": order})
 
 
 

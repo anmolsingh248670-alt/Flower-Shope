@@ -58,11 +58,7 @@ urlpatterns = [
 
     # Customer Orders / Cancellation
     path('my-orders/', views.my_orders, name='my_orders'),
-    path(
-        'cancel-order/<int:order_id>/',
-        views.cancellation_request,
-        name='cancellation_request'
-    ),
+    path('cancel-order/<int:order_id>/',views.cancellation_request,name='cancellation_request'),
 
     # Admin Order Management
     path('admin_orders/', views.admin_orders, name='admin_orders'),
