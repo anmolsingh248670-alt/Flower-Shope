@@ -450,35 +450,74 @@ def minus_cart(request, id):
 
 
 # Review page 
+# @login_required(login_url='home_login')
+# def review(request):
+    
+#     if request.method == "POST":
+#         rating=request.POST.get("rating")
+#         comment=request.POST.get("comment")
+        
+        
+#         Review.objects.create(
+#             user=request.user,
+#             rating= rating,
+#             comment = comment
+#         )
+#         return redirect('review')
+    
+#     reviews = Review.objects.filter(user=request.user)
+    
+#     cart_items = Cart.objects.filter(
+#         user=request.user
+#     )
+#     cart_quantity = 0
+
+#     for item in cart_items:
+#      cart_quantity += item.quantity
+
+#     total = 0
+
+#     for item in cart_items:
+#         total += item.quantity * item.Product.final_price
+
+#     context = {
+#         'reviews': reviews,
+#         'cart_items': cart_items,
+#         'total': total,
+#         'cart_quantity': cart_quantity,
+#     }
+
+    
+
+
+#     return render(request, "review.html",context)
+
 @login_required(login_url='home_login')
 def review(request):
-    
+
     if request.method == "POST":
-        rating=request.POST.get("rating")
-        comment=request.POST.get("comment")
-        
-        
+        rating = request.POST.get("rating")
+        comment = request.POST.get("comment")
+
         Review.objects.create(
             user=request.user,
-            rating= rating,
-            comment = comment
+            rating=rating,
+            comment=comment
         )
+
         return redirect('review')
-    
-    reviews = Review.objects.filter(user=request.user)
-    
-    cart_items = Cart.objects.filter(
-        user=request.user
+
+    # Get ALL users' reviews
+    reviews = Review.objects.all().order_by('-created_at')
+
+    cart_items = Cart.objects.filter(user=request.user)
+
+    cart_quantity = sum(item.quantity for item in cart_items)
+
+    total = sum(
+        item.quantity * item.Product.final_price
+        for item in cart_items
     )
-    cart_quantity = 0
-
-    for item in cart_items:
-     cart_quantity += item.quantity
-
-    total = 0
-
-    for item in cart_items:
-        total += item.quantity * item.Product.final_price
 
     context = {
         'reviews': reviews,
@@ -487,10 +526,8 @@ def review(request):
         'cart_quantity': cart_quantity,
     }
 
-    
+    return render(request, "review.html", context)
 
-
-    return render(request, "review.html",context)
 
 # chek out page
 
