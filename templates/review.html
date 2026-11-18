@@ -244,10 +244,11 @@ h2{
 
 <div class="review-card">
 
-   <h2 class="letter">{{ request.user.username|first|upper }}</h2>
-   
-   
-   <h3>{{ review.user.username }}</h3>
+    <h2 class="letter">
+        {{ review.user.username|first|upper }}
+    </h2>
+
+    <h3>{{ review.user.username }}</h3>
 
     <p>
         {% for i in "12345" %}
