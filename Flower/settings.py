@@ -229,6 +229,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
+
     'google': {
         'APP': {
             'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
@@ -243,6 +244,19 @@ SOCIALACCOUNT_PROVIDERS = {
             'prompt': 'select_account',
         },
     },
+
+    'facebook': {
+        'APP': {
+            'client_id': os.environ.get('FACEBOOK_CLIENT_ID'),
+            'secret': os.environ.get('FACEBOOK_CLIENT_SECRET'),
+            'key': '',
+        },
+        'SCOPE': [
+            'email',
+            'public_profile',
+        ],
+    },
+
 }
 
 SOCIALACCOUNT_AUTO_SIGNUP = True
