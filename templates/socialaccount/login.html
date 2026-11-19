@@ -1,0 +1,125 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Login - Flower Store</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff5f8;
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            padding: 45px 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0,0,0,.08);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #ff4f91;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 27px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #ff4f91;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .continue-btn:hover {
+            background: #e9367c;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 22px;
+            color: #ff4f91;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .flower {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <div class="flower">🌷</div>
+
+        <div class="logo">Flower Store</div>
+
+        <h1>
+            {% if process == "connect" %}
+                Connect {{ provider.name }}
+            {% else %}
+                Sign In Via {{ provider.name }}
+            {% endif %}
+        </h1>
+
+        <p class="subtitle">
+            You are about to sign in using your
+            {{ provider.name }} account.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <button type="submit" class="continue-btn">
+                Continue
+            </button>
+        </form>
+
+        <a href="/" class="back-link">
+            Back to Flower Store
+        </a>
+
+    </div>
+
+</body>
+</html>
