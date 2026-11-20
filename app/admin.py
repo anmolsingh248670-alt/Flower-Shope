@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import add_product,Detales,Cart,Adders,Review,Order,Contact,Profile,Wishlist,CancellationRequest
+from .models import add_product,Detales,Cart,Adders,Review,Order,Contact,Profile,Wishlist,CancellationRequest,Home_Slider
 
 admin.site.register(Cart)
 admin.site.register(Detales)
@@ -10,6 +10,7 @@ admin.site.register(Order)
 admin.site.register(Profile)
 admin.site.register(Wishlist)
 admin.site.register(CancellationRequest)
+admin.site.register(Home_Slider)
 
 
 class Admin_product(admin.ModelAdmin):
