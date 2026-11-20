@@ -1013,7 +1013,7 @@ main {
 /* slider section  */
 
 .conteaner{
-  height: 90vh;
+  height: 100vh;
   width: 100vw;
   background-color: #4b1722;
   display: flex;
@@ -1030,14 +1030,14 @@ gap: 50%;
 
 
 .conteaner .arror1 {
-  background-color:wheat;
+  background-color:rgb(253, 115, 138);
   padding: 5px 5px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1000;
 }
 .conteaner .arror2 {
-  background-color:wheat;
+  background-color:rgb(253, 115, 138);;
   padding: 5px 5px;
   border-radius: 50%;
   cursor: pointer;
