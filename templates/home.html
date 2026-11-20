@@ -110,72 +110,52 @@ body {
     </header>
 
    <!-- Slider sction start -->
-
-
 <div class="conteaner">
     <section class="arror-box">
-
         <div class="slider-imges">
-
             {% for x in slider %}
             <div class="imges">
-
                 <!-- FULL BACKGROUND IMAGE -->
                 <img class="hero-bg"
                      src="{{ x.imge.url }}"
                      alt="{{ x.name }}">
-
                 <!-- DARK GRADIENT OVERLAY -->
                 <div class="hero-overlay"></div>
-
                 <!-- TEXT IN FRONT OF IMAGE -->
                 <div class="slider-content">
-
                     <span class="slider-tag">
                         FRESH • NATURAL • PREMIUM 
                     </span>
-
                     <h1 style="font-size:60px;">{{ x.name }}</h1>
-
                     <p>{{ x.text }}</p>
-                    
                     <a href="{% url 'products' %}" class="slider-btn">
                         Explore Collection
                         <span>↗</span>
                     </a>
-
                 </div>
-
             </div>
             {% empty %}
             <div class="slider-empty">
                 Add your slider images in Django admin.
             </div>
             {% endfor %}
-
         </div>
-
         <button class="arror1" type="button"
                 aria-label="Previous slide">
             <i class="fa-solid fa-arrow-left"></i>
         </button>
-
         <button class="arror2" type="button"
                 aria-label="Next slide">
             <i class="fa-solid fa-arrow-right"></i>
         </button>
-
         <div class="slider-dots"></div>
-
         <div class="slider-counter">
             <span class="current-slide">01</span>
             <span class="counter-line"></span>
             <span class="total-slides">01</span>
         </div>
-
     </section>
 </div>
-
   </div>
 </div>
  <!-- Slider sction end -->
