@@ -1028,7 +1028,7 @@ main {
     position: relative;
     width: 100%;
     /* height: clamp(470px, 38vw, 570px); */
-    height: 100vh;
+    height: 95vh;
     overflow: hidden;
     background: #3e1724;
 }
