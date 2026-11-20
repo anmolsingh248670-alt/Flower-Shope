@@ -1045,16 +1045,19 @@ main {
     background: #3e1724;
 }
 
+
 .hero-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center 48%;
+    object-fit: contain;
+    object-position: center center;
     z-index: -2;
     transition: transform 1.2s ease;
+    background: #f8e8ed;
 }
+
 
 .imges:hover .hero-bg {
     transform: scale(1.025);
@@ -1432,7 +1435,7 @@ main {
 
     .arror-box {
         width: 100%;
-        height: 620px;
+        height: 600px;
         min-height: 0;
         overflow: hidden;
         border-radius: 0;
