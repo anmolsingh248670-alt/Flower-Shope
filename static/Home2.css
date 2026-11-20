@@ -198,7 +198,7 @@ button {
 .brand-subtitle span {
     width: 12px;
     height: 1px;
-    background: var(--gold);
+    background-color: palevioletred;
 }
 
 .brand-tagline {
@@ -1150,7 +1150,7 @@ img{
 .slider-tag {
     display: inline-block;
     margin-bottom: 23px;
-    color: #a7e5a9;
+    color: rgba(255, 217, 0, 0.884);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 4px;
@@ -1199,7 +1199,7 @@ img{
     padding: 15px 17px 15px 25px;
     border-radius: 50px;
 
-    background: #65bb78;
+    background: rgb(248, 110, 133);
     color: #fff;
     text-decoration: none;
     font-size: 14px;

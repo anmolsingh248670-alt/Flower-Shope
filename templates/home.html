@@ -132,16 +132,14 @@ body {
                 <div class="slider-content">
 
                     <span class="slider-tag">
-                        FRESH • NATURAL • PREMIUM
-                        <br>
-                        100% veg
+                        FRESH • NATURAL • PREMIUM 
                     </span>
 
                     <h1 style="font-size:60px;">{{ x.name }}</h1>
 
                     <p>{{ x.text }}</p>
                     
-                    <a href="#products" class="slider-btn">
+                    <a href="{% url 'products' %}" class="slider-btn">
                         Explore Collection
                         <span>↗</span>
                     </a>
