@@ -1027,7 +1027,8 @@ main {
 .arror-box {
     position: relative;
     width: 100%;
-    height: clamp(470px, 38vw, 570px);
+    /* height: clamp(470px, 38vw, 570px); */
+    height: 100vh;
     overflow: hidden;
     background: #3e1724;
 }
