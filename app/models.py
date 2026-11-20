@@ -250,4 +250,13 @@ class CancellationRequest(models.Model):
 
     def __str__(self):
         return f"Cancellation Request - Order #{self.order.id}"
-
+    
+# Home slider
+class Home_Slider(models.Model):
+    text = models.TextField()
+    name = models.CharField(max_length=100)
+    imge = models.ImageField(upload_to="media/")
+    Date = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name

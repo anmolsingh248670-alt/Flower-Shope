@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from .models import add_product, Cart, Adders, Review, OrderItem, Order, Contact,CancellationRequest,Detales
+from .models import add_product, Cart, Adders, Review, OrderItem, Order, Contact,CancellationRequest,Detales,Home_Slider
 from .forms import add_projuct_Forms
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -18,7 +18,7 @@ from django.utils import timezone
 def home(request):
 
     data = add_product.objects.all()
-
+    slider = Home_Slider.objects.all()
     cart_items = Cart.objects.none()
     cart_quantity = 0
     total = 0
@@ -32,6 +32,7 @@ def home(request):
         'cart_items': cart_items,
         'total': total,
         'cart_quantity': cart_quantity,
+        'slider':slider
     }
     return render(request, 'home.html', context)
 # by products Page 

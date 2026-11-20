@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" href="{% static "home2.css" %}">
   </head>
   <style>
 span a{
@@ -108,17 +109,78 @@ body {
        
     </header>
 
-    <!-- Flower imges and text sta -->
+   <!-- Slider sction start -->
 
-    <section class="mainpage" id="home">
-      <div class="textlines">
-        <h1 class="hm">Fresh flowers</h1>
-        <span>nartural & Beautiful flowers</span>
-        <p>Flowers are the reproductive part of flowering plants, helping them make seeds. They attract pollinators like bees, scent, and nectar.</p>
-        <button class="btn" id="flower-section"><a href="{% url "products" %}">shop now</a> </button>
-      </div>
+
+<div class="conteaner">
+    <section class="arror-box">
+
+        <div class="slider-imges">
+
+            {% for x in slider %}
+            <div class="imges">
+
+                <!-- FULL BACKGROUND IMAGE -->
+                <img class="hero-bg"
+                     src="{{ x.imge.url }}"
+                     alt="{{ x.name }}">
+
+                <!-- DARK GRADIENT OVERLAY -->
+                <div class="hero-overlay"></div>
+
+                <!-- TEXT IN FRONT OF IMAGE -->
+                <div class="slider-content">
+
+                    <span class="slider-tag">
+                        FRESH • NATURAL • PREMIUM
+                        <br>
+                        100% veg
+                    </span>
+
+                    <h1 style="font-size:60px;">{{ x.name }}</h1>
+
+                    <p>{{ x.text }}</p>
+                    
+                    <a href="#products" class="slider-btn">
+                        Explore Collection
+                        <span>↗</span>
+                    </a>
+
+                </div>
+
+            </div>
+            {% empty %}
+            <div class="slider-empty">
+                Add your slider images in Django admin.
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <button class="arror1" type="button"
+                aria-label="Previous slide">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+
+        <button class="arror2" type="button"
+                aria-label="Next slide">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <div class="slider-dots"></div>
+
+        <div class="slider-counter">
+            <span class="current-slide">01</span>
+            <span class="counter-line"></span>
+            <span class="total-slides">01</span>
+        </div>
+
     </section>
-    <!-- Flower imges and text End -->
+</div>
+
+  </div>
+</div>
+ <!-- Slider sction end -->
     <!-- side barsaction start -->
 
 <div class="side" id="sidebar">
@@ -294,5 +356,6 @@ body {
     </div>
    </footer>
      <script src="{% static "app.js" %}"></script>
+     <script src="{% static "Home.js" %}"></script>
   </body>
 </html>
