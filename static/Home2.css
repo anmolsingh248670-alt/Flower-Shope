@@ -41,9 +41,7 @@ a {
     color: inherit;
 }
 
-button {
-    font: inherit;
-}
+
 
 /* ==========================================
    HEADER
@@ -898,7 +896,7 @@ main {
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.12);
 }
 
-.bottom-nav a,
+/* .bottom-nav a,
 .bottom-nav button {
     flex: 1 1 0;
     min-width: 0;
@@ -942,7 +940,7 @@ main {
 .bottom-nav a:active,
 .bottom-nav button:active {
     transform: scale(0.92);
-}
+} */
 
 /* PHONE SCREEN */
 
