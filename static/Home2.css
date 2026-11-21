@@ -1063,7 +1063,7 @@ img{
 .arror-box {
     position: relative;
     width: 100%;
-    height: min(680px, 90vh);
+    height: min(680px, 93vh);
     min-height: 480px;
     overflow: hidden;
     background: #17251b;
