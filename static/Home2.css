@@ -1355,7 +1355,7 @@ img{
 
 .slider-counter {
     position: absolute;
-    bottom: 5px;
+    bottom: 10px;
     left: 10%;
     z-index: 6;
 
