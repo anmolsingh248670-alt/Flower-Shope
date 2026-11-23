@@ -1326,4 +1326,10 @@ def admin_customers(request):
         'search': search
     })
 # from django.contrib.auth import views as auth_views
+from django.http import HttpResponse
 
+def google_verification(request):
+    return HttpResponse(
+        "google-site-verification: googled605301a7eb53b38.html",
+        content_type="text/plain"
+    )
